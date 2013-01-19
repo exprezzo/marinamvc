@@ -2,22 +2,22 @@
 	//  AQUI INICIA EL PROCESO
 	session_start();	
 
-	require_once '../config.php';		
+	//require_once '../config.php';		
 	require_once 'despachador.php';		
 	
-	if (!defined('DEFAULT_MODULE') ) define('DEFAULT_MODULE','default'); 
-	if (!defined('DEFAULT_CONTROLLER') ) define('DEFAULT_CONTROLLER','paginas'); 
-	if (!defined('DEFAULT_ACTION') ) define('DEFAULT_ACTION','index'); 
+	// if (!defined('DEFAULT_MODULE') ) define('DEFAULT_MODULE','default'); 
+	// if (!defined('DEFAULT_CONTROLLER') ) define('DEFAULT_CONTROLLER','paginas'); 
+	// if (!defined('DEFAULT_ACTION') ) define('DEFAULT_ACTION','index'); 
 	
 	
-	define ("VISTAS_PATH",		 PATH_MVC.'vistas/');
-	define ("PATH_CONTROLADORES",PATH_MVC.'controladores/');
+	// define ("VISTAS_PATH",		 PATH_MVC.'vistas/');
+	// define ("PATH_CONTROLADORES",PATH_MVC.'controladores/');
 
 	$despachador = new Despachador();
 	
 	try{		
 		$_PETICION=new Peticion(); //Analiza el url
-
+		require_once '../apps/'.$_PETICION->modulo.'/config.php';	
 		
 		if ( !empty($_PETICION->modulo) ){
 			$rutaControlador='../apps/'.$_PETICION->modulo.'/controladores/'.$_PETICION->controlador.'.php';

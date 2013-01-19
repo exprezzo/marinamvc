@@ -9,13 +9,14 @@ $DB_CONFIG=array(
 );
 
 
-if (!defined('APP_MODULE') ) define('APP_MODULE','marina'); 
-	
+
+$_TEMA='blitzer';
 // Configuracion del sitio
-define ("TEMA",'rocket');
+
 define ("NOMBRE_APL",'Marina Mvc');
 define ("PASS_AES",'airA3s');
 //define ("PATH_MVC",'../mvc/');
-define ("DEFAULT_CONTROLLER",'admin');
-define ("DEFAULT_ACTION",'index');
+//define ("DEFAULT_CONTROLLER",'admin');
+//define ("DEFAULT_ACTION",'index');
+define ("LOGOUT_REDIRECT_PATH",'/marina/home');
 ?>

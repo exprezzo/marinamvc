@@ -17,7 +17,7 @@ class Peticion{
 			$app_path.=''.$arrAppPath[$i].'/';			
 		}
 		
-		if (!defined('APP_PATH') ) define('APP_PATH',$app_path); //¿Donde se usa?
+		//if (!defined('APP_PATH') ) define('APP_PATH',$app_path); //¿Donde se usa?
 		//-------------------------------------------------------------------------------
 		//echo '<pre>'; print_r($_SERVER); echo '<pre>';
 		if ( isset($_SERVER['ORIG_PATH_INFO']) ){
@@ -31,11 +31,13 @@ class Peticion{
 		
 		switch($size){
 			case 1:		//no Escribio nada
+				require_once '../config.php';					
 				$modulo		=APP_MODULE;
 				$controlador=APP_MODULE;
 				$controlador=DEFAULT_ACTION;				
 			break;
 			case 2:	// solo escribió un parametro  ( la accion )
+				require_once '../config.php';	
 				$modulo		=APP_MODULE;
 				$controlador=DEFAULT_CONTROLLER;
 				$accion		=$xp[1];

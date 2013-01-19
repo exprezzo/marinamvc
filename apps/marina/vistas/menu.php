@@ -4,44 +4,53 @@
 	$idMenu_index='';
 	$idMenu_nosotros='';
 	$idMenu_contacto='';
-	 
+	 global $_PETICION;
 	$menus=array();
 	$menus[]=array(
 		'idMenu'=>'menuHome',
 		'estado'=>'',
 		'text'=>'Home',
-		'url'=>'/'.APP_MODULE.'/paginas/home'
+		'url'=>'/'.$_PETICION->modulo.'/paginas/home'
 	);
 	$menus[]=array(
-		'idMenu'=>'menuAbout',
+		'idMenu'=>'menuProyectos',
 		'estado'=>'',
-		'text'=>'About Us',
-		'url'=>'/'.APP_MODULE.'/paginas/about_us'
+		'text'=>'Proyectos',
+		'url'=>'/'.$_PETICION->modulo.'/paginas/proyectos'
 	);
 	$menus[]=array(
 		'idMenu'=>'menuNews',
 		'estado'=>'',
 		'text'=>'News',
-		'url'=>'/'.APP_MODULE.'/paginas/news'
+		'url'=>'/'.$_PETICION->modulo.'/paginas/news'
 	);
 	$menus[]=array(
-		'idMenu'=>'menuGallery',
+		'idMenu'=>'menuAbout',
 		'estado'=>'',
-		'text'=>'Gallery',
-		'url'=>'/'.APP_MODULE.'/paginas/gallery'
+		'text'=>'About Us',
+		'url'=>'/'.$_PETICION->modulo.'/paginas/about_us'
+	);
+	
+	
+	$menus[]=array(
+		'idMenu'=>'menuGuias',
+		'estado'=>'',
+		'text'=>'Guias',
+		'url'=>'/'.$_PETICION->modulo.'/paginas/guias'
 	);
 	$menus[]=array(
-		'idMenu'=>'menuVideoGallery',
+		'idMenu'=>'menuApi',
 		'estado'=>'',
-		'text'=>'Video Gallery',
-		'url'=>'/'.APP_MODULE.'/paginas/video_gallery'
+		'text'=>'api',
+		'url'=>'/'.$_PETICION->modulo.'/paginas/api'
 	);
 	$menus[]=array(
 		'idMenu'=>'menuContac',
 		'estado'=>'',
 		'text'=>'Contact',
-		'url'=>'/'.APP_MODULE.'/paginas/contact'
+		'url'=>'/'.$_PETICION->modulo.'/paginas/contact'
 	);
+	
 
 	
 	
@@ -54,21 +63,7 @@
 	}	
 ?>
 <style>
-	#menu_principal li:first-child{	border-radius:45px 0 0 45px;}
-	#menu_principal li:last-child{border-radius:0 45px  45px 0 ;}
-	#menu_principal{position:absolute; margin-top:131px; left:42px;}
 	
-	#menu_principal li a{
-		-webkit-transition:background .5s;
-		-webkit-transition:background-color .5s;
-		-webkit-transition:color .2s;
-	}
-	#menu_principal li{ display:inline-block;margin-right:-5px;
-	}
-	#menu_principal li a{ padding:12px 24px 11px 24px; display:inline-block;
-	
-	}
-	#menu_principal li:ui-state-hover a{ } 
 </style>
 <script>
 	$(function(){
@@ -82,10 +77,11 @@
 		
 	});
 </script>
-<ul id="menu_principal" class="ui-widget">	
-	<?php
-	for($i=0; $i<sizeof($menus); $i++){
-		echo '<li '.$menus[$i]['idMenu'].' class="ui-state-default '.$menus[$i]['estado'].'"><a href="'.$menus[$i]['url'].'">'.$menus[$i]['text'].'</a></li>';
-	}
-	?>
-</ul>
+	
+	<ul  class="ui-widget">	
+		<?php
+		for($i=0; $i<sizeof($menus); $i++){
+			echo '<li '.$menus[$i]['idMenu'].' class="ui-state-default '.$menus[$i]['estado'].'"><a href="'.$menus[$i]['url'].'">'.$menus[$i]['text'].'</a></li>';
+		}
+		?>
+	</ul>

@@ -1,4 +1,4 @@
-ï»¿<?php
+<?php
 require_once 'modelo/user_model.php';
 class UserController extends Controlador{
 	var $validarCaptcha=true;
@@ -52,11 +52,9 @@ class UserController extends Controlador{
 		Para el caso de redireccionaniemto desde el mismo sistema ¿Puedo saber desde que pagina llege hasta aqui?
 	*/
 		
-	function login($username=null, $pass=null){
-		$this->redirectPath=APP_MODULE."/backend/index";
-		
+	function login($username=null, $pass=null){		
 		if (  isset($_SESSION['isLoged']) && $_SESSION['isLoged']===true ){			
-			header('Location: /admin/general/index');					
+			header('Location: '.LOGIN_REDIRECT_PATH);					
 		}
 		
 		if ($_SERVER['REQUEST_METHOD']!='POST'){
@@ -101,7 +99,7 @@ class UserController extends Controlador{
 		
 		if ($resp['success']==true){
 			
-			header('Location: /admin/general/index');			
+			header('Location: '.LOGIN_REDIRECT_PATH); // 
 			exit;
 		}else{
 			

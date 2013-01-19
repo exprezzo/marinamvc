@@ -1,18 +1,18 @@
-<html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html >
 <head>
 	<script src="/web/libs/jquery-1.8.3.js"></script>
 	<script src="/web/libs/jquery-ui-1.9.2.custom/jquery-ui-1.9.2.custom.js"></script>
-	<?php 		
+	<?php
 		global $_TEMA;
 		global $_PETICION;
-		if ($_PETICION->accion=='news'){
+		if ($_PETICION->accion=='xnews'){
 			$_TEMA='blitzer';
+		}else if ($_PETICION->accion=='proyectosx'){
+			$_TEMA='le-frog';
 		}
-			$rutaTema=getUrlTema($_TEMA);
-		
-		
-
-	?>	
+		$rutaTema=getUrlTema($_TEMA);		
+	?>
 	<link href="<?php echo $rutaTema; ?>" rel="stylesheet" type="text/css" />	
 	
 	<!--Wijmo Widgets CSS-->	
@@ -20,30 +20,27 @@
 	<link href="/web/libs/Wijmo.2.3.2/Wijmo-Open/css/jquery.wijmo-open.2.3.2.css" rel="stylesheet" type="text/css" />				
 	<!--Wijmo Widgets JavaScript-->
 	<script src="/web/libs/Wijmo.2.3.2/Wijmo-Complete/js/jquery.wijmo-complete.all.2.3.2.min.js" type="text/javascript"></script>
-	<script src="/web/libs/Wijmo.2.3.2/Wijmo-Open/js/jquery.wijmo-open.all.2.3.2.min.js" type="text/javascript"></script>
+	<script src="/web/libs/Wijmo.2.3.2/Wijmo-Open/js/jquery.wijmo-open.all.2.3.2.min.js" type="text/javascript"></script>	
+	<!--script src="http://use.edgefonts.net/krona-one.js"></script-->			
 	
-	<script src="http://use.edgefonts.net/krona-one.js"></script>			
+	<?php echo '<link href="/web/apps/'.$_PETICION->modulo.'/css/estilos.css" rel="stylesheet" type="text/css" />'; ?>
+	
 	<style>
-		body{
-			background-image:url('/web/apps/marina/imagenes/bg6_1.jpg');
-			/*
-			background-image:url('http://s.ngm.com/2005/05/coral-reefs/img/coral-color-615.jpg');
-			*/
-			background-repeat:no-repeat;
-			padding:0;
-			margin:0;
-		}
-		.header_wraper{}		
-		.content_wraper{}
 		
-		.main_content { positon:relative; width:800px; overflow:hidden; }
-		.main_content .pantalla{width:5000px; }
-		.main_content .contenido{background:white;width:800px; float:left;display:block; margin-right:20px; position:absolute; padding:10px;}
-		
-		.footer_wraper{background:black;height:100px;}
-		.header{width:800px;position:relative;left:50%; margin-left:-400px;border:black 1px solid;}
 	</style>
-	<link href="/web/apps/<?php echo APP_MODULE.'/mods/'.$_TEMA; ?>/mods.css" rel="stylesheet" type="text/css" />	
+	<link href="/web/apps/<?php echo $_PETICION->modulo.'/temas_mod/'.$_TEMA; ?>/mods.css" rel="stylesheet" type="text/css" />	
+	<script>
+		$(function(){
+			var width=$('.main_header #menu_principal').width();
+			var margin=width/2;
+			$('.main_header ').css('left','50%');
+			$('.main_header ').css('margin-left','-'+margin+'px');
+			$('.main_header').width(width);
+			//$('.main_header').width(width);
+		
+		});
+		
+	</script>
 </head>
 <body>
 	<div class="header_wraper">
@@ -51,10 +48,21 @@
 	</div>
 	<div class="content_wraper">
 		<div class="contenido">
-			<?php $this->mostrar(''); ?>
+			<div class="contenido_center ui-widget-content">
+				<?php $this->mostrar(''); ?>
+			</div>
+			<div class="content_right" > 
+				
+			</div>
+			<div style="clear:both;"></div>
 		</div>
 	</div>
 	<div class="footer_wraper">footer_wraper</div>
+	<style>
+		body{
+			background-image:url('/web/apps/marina/imagenes/bg6_4.jpg');
+		}
+	</style>
 </body>
 
 </html>

@@ -6,7 +6,8 @@
 	
 	
 </style>
-<script src="/js/admin/catalogos/pedidos/edicion_pedido.js"></script>
+
+<?php echo '<script src="/web/apps/'.$_PETICION->modulo.'/js/catalogos/pedidos/edicion_pedido.js"></script>'; ?>
 <script>
 	$( function(){
 		var tabId="<?php echo $_REQUEST['tabId']; ?>";

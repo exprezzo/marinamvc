@@ -6,7 +6,7 @@
 	webkit-box-shadow: 7px 7px 5px rgba(50, 50, 50, 0.75);-moz-box-shadow:    7px 7px 5px rgba(50, 50, 50, 0.75);box-shadow: 7px 7px 5px rgba(50, 50, 50, 0.75);
 }
 </style>
-<form class="loginForm" action="/<?php echo APP_MODULE; ?>/user/login" METHOD="POST" style="text-align:center">
+<form class="loginForm" action="/<?php echo $_PETICION->modulo; ?>/user/login" METHOD="POST" style="text-align:center">
 	<?
 	if  ( !empty($this->errores) ){
 		print_r ($this->errores);

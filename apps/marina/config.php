@@ -7,16 +7,20 @@ $DB_CONFIG=array(
 	'DB_USER'	=>'root',
 	'DB_PASS'	=>''
 );
+$_TEMA='blitzer';
 
 
-if (!defined('APP_MODULE') ) define('APP_MODULE','marina'); 
 	
 // Configuracion del sitio
-$_TEMA='rocket';
-//define ("TEMA",'south-street');
+
 define ("NOMBRE_APL",'Marina Mvc');
 define ("PASS_AES",'airA3s');
-define ("PATH_MVC",'../mvc/');
-define ("DEFAULT_CONTROLLER",'paginas');
-define ("DEFAULT_ACTION",'home');
+define ("LOGIN_REDIRECT_PATH",'/marinaadmin/backend/index');
+
+//define ("PATH_MVC",'../mvc/');
+//define ("DEFAULT_CONTROLLER",'paginas');
+//define ("DEFAULT_ACTION",'home');
+//if (!defined('APP_MODULE') ) define('APP_MODULE','marina'); 
+
+			
 ?>
