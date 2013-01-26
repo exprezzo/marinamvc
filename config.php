@@ -1,5 +1,5 @@
 <?php
-if (!defined('APP_MODULE') ) define('APP_MODULE','marina');
+if (!defined('DEFAULT_APP') ) define('DEFAULT_APP','marina');
 if (!defined('DEFAULT_CONTROLLER') ) define('DEFAULT_CONTROLLER','paginas');
 
 ?>

@@ -32,18 +32,19 @@ class Peticion{
 		switch($size){
 			case 1:		//no Escribio nada
 				require_once '../config.php';					
-				$modulo		=APP_MODULE;
-				$controlador=APP_MODULE;
+				$modulo		=DEFAULT_APP;
+				$controlador=DEFAULT_CONTROLLER;
 				$controlador=DEFAULT_ACTION;				
 			break;
 			case 2:	// solo escribió un parametro  ( la accion )
 				require_once '../config.php';	
-				$modulo		=APP_MODULE;
+				$modulo		=DEFAULT_APP;
 				$controlador=DEFAULT_CONTROLLER;
 				$accion		=$xp[1];
 			break;			
 			case 3:	// escribió el controlador y la accion
-				$modulo		=APP_MODULE;
+				require_once '../config.php';
+				$modulo		=DEFAULT_APP;
 				$controlador=$xp[1];
 				
 				$accion		=$xp[2];

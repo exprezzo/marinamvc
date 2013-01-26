@@ -10,7 +10,7 @@ $DB_CONFIG=array(
 
 
 
-$_TEMA='blitzer';
+$_TEMA='rocket';
 // Configuracion del sitio
 
 define ("NOMBRE_APL",'Marina Mvc');
