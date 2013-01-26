@@ -7,101 +7,100 @@
 	
 	<script src="/web/libs/jquery-1.8.3.js" type="text/javascript"></script>
 	<script>
-	seleccionar=function(target){
-		target=$(target);
-		console.log(target);
-		var incW=14;
-		 var w=target.width();
-		 var h=target.height();
-		 var selector=$('.paginaActiva');
-		 selector.css('background','white');
-		 selector.css('width',w);
-		 selector.css('height',h+incW);
-		
-		
-		var offset=target.offset();					
-		offset.top=offset.top-(incW/2);
-		selector.offset(offset);
-	}
-			$(function(){
-				var slides = $('.slider .slidesContainer > .slide');
-				
-				$('.slider .slidesContainer').css('width',1000 * slides.length);
-				var items=$('.paginador a');
-				
-				$.each(items, function(index, value) {
-				  $(value).click(function(){
-					var offset=index*1000 * -1;
-					idx=index;
-					$('.slider .slidesContainer').css('margin-left',offset);
-					
-				  });
-				  
-				});
-				
-				var numItems=5;
-				var ancho=1000;
-				var idx=1;
-				
-				sliderShow=function(){
-					setTimeout(function(){
-						var offset=idx*ancho * -1;
-						//alert(offset);
-						$('.slider .slidesContainer').css('margin-left',offset);						
-						var target=$('.paginador .a-wrap');
-						seleccionar(target[idx]);
-						idx++;
-						
-						if (idx>=numItems) idx=0;
-						sliderShow();
-					}, 3000);
-				}
-				sliderShow();
-				
-				var target=$('.paginador .a-wrap');
-				seleccionar(target[0]);
-						
-				var paginador=$('.paginador');
-				var w,h;
-				w=paginador.width();
-				h=paginador.height();
-				var fondoPaginador = $('.fondo-paginador');
-				fondoPaginador.css('width',w);
-				fondoPaginador.css('height',h);
-				
-				$('.paginador a').mouseout(function(e){
-				
-					 var selector=$('.selectorPagina');
-					 selector.css('background','transparent');
-				});
-				$('.paginador a').mouseenter(function(e){										
-					 var target=$(e.target);
-					 var idt=target.attr('cont');
-					 target = $('.paginador div[idw="'+idt+'"]');
-					 
-					 var incW=14;
-					 var w=target.width();
-					 var h=target.height();
-					 var selector=$('.selectorPagina');
-					 selector.css('background','white');
-					 selector.css('width',w);
-					 selector.css('height',h+incW);
-					
-					
-					var offset=target.offset();					
-					offset.top=offset.top-(incW/2);
-					selector.offset(offset);										
-				});
-				
-				$('.paginador .a-wrap').click(function(e){
-					 var target=$(e.target);
-					//	console.log("target"); console.log(target);
-					  var idt=target.attr('cont');
-					  target = $('.paginador div[idw="'+idt+'"]');
-					 seleccionar(target);
-					 
-				});
+		seleccionar=function(target){
+			target=$(target);
+			console.log(target);
+			var incW=14;
+			 var w=target.width();
+			 var h=target.height();
+			 var selector=$('.paginaActiva');
+			 selector.css('background','white');
+			 selector.css('width',w);
+			 selector.css('height',h+incW);
+			
+			
+			var offset=target.offset();					
+			offset.top=offset.top-(incW/2);
+			selector.offset(offset);
+		}
+		$(function(){
+			var slides = $('.slider .slidesContainer > .slide');
+			
+			$('.slider .slidesContainer').css('width',1000 * slides.length);
+			var items=$('.paginador a');
+			
+			$.each(items, function(index, value) {
+			  $(value).click(function(){
+				var offset=index*1000 * -1;
+				idx=index;
+				$('.slider .slidesContainer').css('margin-left',offset);				
+			  });
+			  
 			});
+			
+			var numItems=5;
+			var ancho=1000;
+			var idx=1;
+			
+			sliderShow=function(){
+				setTimeout(function(){
+					var offset=idx*ancho * -1;
+					//alert(offset);
+					$('.slider .slidesContainer').css('margin-left',offset);						
+					var target=$('.paginador .a-wrap');
+					seleccionar(target[idx]);
+					idx++;
+					
+					if (idx>=numItems) idx=0;
+					sliderShow();
+				}, 3000);
+			}
+			sliderShow();
+			
+			var target=$('.paginador .a-wrap');
+			seleccionar(target[0]);
+					
+			var paginador=$('.paginador');
+			var w,h;
+			w=paginador.width();
+			h=paginador.height();
+			var fondoPaginador = $('.fondo-paginador');
+			fondoPaginador.css('width',w);
+			fondoPaginador.css('height',h);
+			
+			$('.paginador a').mouseout(function(e){
+			
+				 var selector=$('.selectorPagina');
+				 selector.css('background','transparent');
+			});
+			$('.paginador .a-wrap').mouseenter(function(e){										
+				 var target=$(e.target);
+				 var idt=target.attr('cont');
+				 target = $('.paginador div[idw="'+idt+'"]');
+				 
+				 var incW=14;
+				 var w=target.width();
+				 var h=target.height();
+				 var selector=$('.selectorPagina');
+				 selector.css('background','white');
+				 selector.css('width',w);
+				 selector.css('height',h+incW);
+				
+				
+				var offset=target.offset();					
+				offset.top=offset.top-(incW/2);
+				selector.offset(offset);										
+			});
+			
+			$('.paginador .a-wrap').click(function(e){
+				 var target=$(e.target);
+				//	console.log("target"); console.log(target);
+				  var idt=target.attr('cont');
+				  target = $('.paginador div[idw="'+idt+'"]');
+				 seleccionar(target);
+				 
+			});
+		});
 			
 		
 	</script>
