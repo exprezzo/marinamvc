@@ -12,7 +12,7 @@ class UserModel extends Modelo{
 			$sql = 'SELECT * FROM '.$this->tabla.' WHERE nick=:username and :pass=AES_DECRYPT(pass, "'.PASS_AES.'")';
 		}									
 		
-		$con = $this->getConexion();
+		$con = $this->getPdo();
 		$sth = $con->prepare($sql);		
 		$sth->bindValue(':username',$username, PDO::PARAM_STR);
 		$sth->bindValue(':pass',$pass, PDO::PARAM_STR);
@@ -69,7 +69,7 @@ class UserModel extends Modelo{
 		unset($_SESSION['logoutUrl']);		
 	}
 	function registrar($nick, $email, $pass,$nombre){
-		$dbh=$this->getConexion();
+		$dbh=$this->getPdo();
 		
 		$sql='INSERT INTO system_users SET nick=:nick , pass=AES_ENCRYPT(:pass, "'.PASS_AES.'"), name=:name,email=:email';
 		$sth = $dbh->prepare($sql);		
@@ -124,7 +124,7 @@ class UserModel extends Modelo{
 		if ($userId){
 				$sql.=' AND id !='.$userId;
 		}
-		$con = $this->getConexion();
+		$con = $this->getPdo();
 		$sth = $con->prepare($sql);		
 		$sth->bindValue(':email',$email, PDO::PARAM_STR);
 		$sth->execute();
@@ -143,7 +143,7 @@ class UserModel extends Modelo{
 	function findByFbId($fbid){
 		$sql = 'SELECT * FROM '.$this->tabla.' WHERE fbid=:fbid';				
 				
-		$con = $this->getConexion();
+		$con = $this->getPdo();
 		$sth = $con->prepare($sql);		
 		$sth->bindValue(':fbid',$fbid, PDO::PARAM_STR);
 		$sth->execute();
@@ -162,7 +162,7 @@ class UserModel extends Modelo{
 	function findById($id){
 		$sql = 'SELECT * FROM '.$this->tabla.' WHERE id=:id';				
 				
-		$con = $this->getConexion();
+		$con = $this->getPdo();
 		$sth = $con->prepare($sql);		
 		$sth->bindValue(':id',$id, PDO::PARAM_INT);
 		$sth->execute();
@@ -186,7 +186,7 @@ class UserModel extends Modelo{
 		if ($userId){
 				$sql.=' AND id !='.$userId;
 		}		
-		$con = $this->getConexion();
+		$con = $this->getPdo();
 		$sth = $con->prepare($sql);		
 		$sth->bindValue(':nick',$nick, PDO::PARAM_STR);
 		$sth->execute();
@@ -212,7 +212,7 @@ class UserModel extends Modelo{
 	function compruebaPass($id,$pass){
 		$sql = 'SELECT * FROM '.$this->tabla.' WHERE id=:id and :pass=AES_DECRYPT(pass, "'.PASS_AES.'")';
 		
-		$con = $this->getConexion();
+		$con = $this->getPdo();
 		$sth = $con->prepare($sql);		
 		$sth->bindValue(':id',$id, PDO::PARAM_INT);
 		$sth->bindValue(':pass',$pass, PDO::PARAM_STR);
@@ -242,7 +242,7 @@ class UserModel extends Modelo{
 	function updatePass($id,$pass){
 		$sql = 'UPDATE '.$this->tabla.' SET pass=AES_ENCRYPT(:pass, "'.PASS_AES.'") WHERE id=:id ';
 		
-		$con = $this->getConexion();
+		$con = $this->getPdo();
 		$sth = $con->prepare($sql);		
 		$sth->bindValue(':id',$id, PDO::PARAM_INT);
 		$sth->bindValue(':pass',$pass, PDO::PARAM_STR);
@@ -273,7 +273,7 @@ class UserModel extends Modelo{
 	
 	
 	
-		$dbh=$this->getConexion();
+		$dbh=$this->getPdo();
 		
 		$sql='INSERT INTO system_users SET nick=:nick , email=:email, fbid=:fbid, name=:name';
 		$sth = $dbh->prepare($sql);		
