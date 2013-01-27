@@ -20,32 +20,20 @@ class Despachador{
 		
 		// 1.- Cargar una vista.
 		// 2.- Ejecutar una accion de un controlador.
-		// 3.- Ejecutar una accion de un controlador de modulo.
+		// 3.- Ejecutar una accion de un controlador de modulo.		
+		$controller=new $_PETICION->controlador;
+		//  Aqui se decide entre ejecutar accion o cargar vista
+		$respuesta = $controller->servir();
 		
-		if ( empty($_PETICION->controlador) ){
-			$controller = new Controlador();
-			$respuesta = $controller->mostrarVista();
-		}else{
-			$controller=new $_PETICION->controlador;
-			//  Aqui se decide entre ejecutar accion o cargar vista
-			if (method_exists($controller, $accion)){
-				$respuesta = $controller->$accion();
-				if ($respuesta==null){
-					$respuesta=array(
-						'success'=>true
-					);
-				}
-			}else{						
-				$respuesta = $controller->mostrarVista();				
-			}			
-		}
+		
+		
 		
 		//------------------------------------
-		if ( $respuesta['success'] == true ){
-			$respuesta['msg'] = $msgExito;
-		}else{
-			if ($respuesta['msg'] == null )
-				$respuesta['msg'] = $msgFalla;
+		//En caso de no recibir mensaje se establece uno por default
+		if ( $respuesta['success'] == true ){			
+			if ($respuesta['msg'] == null )	$respuesta['msg'] = $msgExito;			
+		}else{			
+			if ($respuesta['msg'] == null )	$respuesta['msg'] = $msgFalla;
 		}
 		return $respuesta;						
 	}

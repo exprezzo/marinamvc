@@ -1,5 +1,5 @@
 <?php
-require_once '../mvc_core/peticion.php';
+require_once '../peticion.php';
 require_once 'PHPUnit.php';
 class PeticionTestcase extends PHPUnit_TestCase{
 	 
@@ -10,45 +10,54 @@ class PeticionTestcase extends PHPUnit_TestCase{
     }	
 	//==================================================================================
 	
-	function testPeticionSinAccion(){
-		$controlador="elcontrolador";		
-		$url="/".$controlador;
+	
+	
+	
+	
+	
+	
+	
+	
+	function testModuloControladorAccion1Param(){
+		$modulo='modulo';
+		$controlador="user";
+		$accion="edit";		
+		$param1=5;		
+		$url='/'.$modulo."/".$controlador.'/'.$accion.'/'.$param1;
 		$_SERVER['PATH_INFO'] = $url;
 		$request=new Peticion();
-		$this->assertTrue($controlador == $request->controlador && $request->accion == 'inicio');
-		
+		$this->assertTrue($controlador == $request->controlador && $accion == $request->accion && $request->modulo == $modulo && $param1 ==$request->params[0 ]);
 	}
-	
-	function testPeticionConAccion(){
+	function testModuloControladorAccion(){
+		$modulo='elmodulo';
+		$controlador="elcontrolador";
+		$accion="laaccion";				
+		$url='/'.$modulo."/".$controlador.'/'.$accion;
+		$_SERVER['PATH_INFO'] = $url;
+		$request=new Peticion();
+		$this->assertTrue($controlador == $request->controlador && $accion == $request->accion && $request->modulo == $modulo);
+	}
+	function testControladorAccion(){
 		$controlador="elcontrolador";
 		$accion="laaccion";		
 		$url="/".$controlador.'/'.$accion;
 		$_SERVER['PATH_INFO'] = $url;
 		$request=new Peticion();
-		$this->assertTrue($controlador == $request->controlador && $accion == $request->accion);
+		$this->assertTrue($controlador == $request->controlador && $accion == $request->accion && $request->modulo == DEFAULT_APP);
 	}
-	
-	function testPeticionExtra(){
-		$controlador="elcontrolador";
-		$accion="laaccion";		
-		$url="/".$controlador.'/'.$accion.'/otraCos';
+	function testSoloAccion(){		
+		$accion="elcontrolador";		
+		$url="/".$accion;
 		$_SERVER['PATH_INFO'] = $url;
-		try{
-			$request=new Peticion();
-			$error=false;
-		}catch(Exception $e){
-			$error=true;
-		}		
-		$this->assertTrue($error);
+		$request=new Peticion();		
+		$this->assertTrue(DEFAULT_CONTROLLER == $request->controlador && $request->accion == $accion && $request->modulo == DEFAULT_APP);				
 	}
-	
 	function testRaiz(){
 		$url="";
 		$_SERVER['PATH_INFO'] = $url;
 		$request=new Peticion();
-		$this->assertTrue('paginas' == $request->controlador && 'inicio' == $request->accion);
+		$this->assertTrue(DEFAULT_CONTROLLER == $request->controlador && $request->accion == DEFAULT_ACTION && $request->modulo == DEFAULT_APP);
 	}
-	
 	/*
 	function testRutas(){
 		// Y este que?

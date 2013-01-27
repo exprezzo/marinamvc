@@ -31,19 +31,19 @@ class Peticion{
 		
 		switch($size){
 			case 1:		//no Escribio nada
-				require_once '../config.php';					
+				@include '../config.php';					
 				$modulo		=DEFAULT_APP;
 				$controlador=DEFAULT_CONTROLLER;
-				$controlador=DEFAULT_ACTION;				
+				$accion=DEFAULT_ACTION;				
 			break;
 			case 2:	// solo escribió un parametro  ( la accion )
-				require_once '../config.php';	
+				@include '../config.php';	
 				$modulo		=DEFAULT_APP;
 				$controlador=DEFAULT_CONTROLLER;
 				$accion		=$xp[1];
 			break;			
 			case 3:	// escribió el controlador y la accion
-				require_once '../config.php';
+				@include '../config.php';
 				$modulo		=DEFAULT_APP;
 				$controlador=$xp[1];
 				
@@ -55,8 +55,14 @@ class Peticion{
 				$accion		=$xp[3];				
 			break;			
 			default:
+				$modulo		=$xp[1];
+				$controlador=$xp[2];
+				$accion		=$xp[3];				
+				$params=array();
+				$params[]=$xp[4];
+				$this->params=$params;
 				//throw new Exception($url. " No reconocida" );
-				header("HTTP/1.0 404 ".$url. " No reconocida");
+				//header("HTTP/1.0 404 ".$url. " No reconocida");
 				// escribió algo incomprensible, en este caso deberia lanzar una pagina de error
 		}
 		

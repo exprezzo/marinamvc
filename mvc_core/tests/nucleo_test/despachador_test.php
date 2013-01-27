@@ -1,7 +1,10 @@
 <?php
-
+$CORE_PATH='../';
 require_once 'testcase_despachador.php';
 require_once 'PHPUnit.php';
+
+
+//$_PETICION=new Peticion();
 
 $suite  = new PHPUnit_TestSuite("DespachadorTestcase");
 $phpunit= new PHPUnit();

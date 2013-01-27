@@ -1,5 +1,5 @@
 <?php
-require_once '../mvc_core/despachador.php';
+require_once $CORE_PATH.'despachador.php';
 require_once 'PHPUnit.php';
 class DespachadorTestcase extends PHPUnit_TestCase{
 	 
@@ -7,9 +7,9 @@ class DespachadorTestcase extends PHPUnit_TestCase{
 	// override sobre PHPUnit_TestCase 
 	// called before the test functions
     function setUp() {
-		if ( !defined('PATH_CONTROLADORES') ) define ("PATH_CONTROLADORES",'../mvc_core/controlador/');       
-		if ( !defined('PATH_NUCLEO') )        define ("PATH_NUCLEO",'../mvc_core/');
-		if ( !defined('VISTAS_PATH') )   define ("VISTAS_PATH",'nucleo_test/');
+		// if ( !defined('PATH_CONTROLADORES') ) define ("PATH_CONTROLADORES",'../mvc_core/controlador/');       
+		// if ( !defined('PATH_NUCLEO') )        define ("PATH_NUCLEO",'../mvc_core/');
+		// if ( !defined('VISTAS_PATH') )   define ("VISTAS_PATH",'nucleo_test/');
 		
     }
 
@@ -19,35 +19,28 @@ class DespachadorTestcase extends PHPUnit_TestCase{
         // delete your instance
         //unset($this->request);
     }
-	//==================================================================================
-	
-	function testGetPeticion(){
-		//---------------------------------------
-		//	Construyo una URL de prueba		
-		$_SERVER['PATH_INFO'] = '/'.$controlador="Controlador";
-		//---------------------------------------
-		$despachador=new Despachador();		
-		$resultado = $despachador->getPeticion();		
-		$esperado=array(
-			'controlador'=>$controlador,
-			'accion'=>'inicio'
-		);
-		
-		$this->assertTrue($resultado->controlador == $esperado['controlador'] && $resultado->accion == $esperado['accion']);
-	}
+	//==================================================================================	
 	
 	function testDespacharAccion(){
 		//---------------------------------------
 		//	Construyo una URL de prueba		
-		$_SERVER['PATH_INFO'] = '/'.$controlador="Controlador/index_test";
+		$_SERVER['PATH_INFO'] = "controlador/init";
 		//---------------------------------------
+		
+		if (!defined('DEFAULT_APP') ) define('DEFAULT_APP','TESTS');
+		if (!defined('DEFAULT_CONTROLLER') ) define('DEFAULT_CONTROLLER','paginas');
+		if (!defined('DEFAULT_ACTION') ) define('DEFAULT_ACTION','index');
+		
+		$_PETICION=new Peticion();
 		$despachador=new Despachador();		
-		ob_start();
-		$resultado = $despachador->despacharPeticion();		
+		$despachador->appsPath='nucleo_test/app_test';
+		ob_start();		
+		$resultado = $despachador->despacharPeticion($_PETICION);
 		//ob_end_clean();
 		$esperado=array(
 			'success'=>true,
-			'msg'=>'petición servida con éxito'
+			'msg'=>'petición servida con éxito',
+			'cod'=>'DES-DES'
 		);
 		
 		$this->assertTrue($resultado['success'] == $esperado['success'] && $resultado['msg'] == $esperado['msg']);
@@ -68,6 +61,10 @@ class DespachadorTestcase extends PHPUnit_TestCase{
 		);
 		
 		$this->assertTrue($resultado['success'] == $esperado['success'] && $resultado['msg'] == $esperado['msg']);		
+	}
+	
+	function testModuloNoEncontrado(){
+		$this->assertTrue(false);
 	}
 	
 	function testControladorNoEncontrado(){

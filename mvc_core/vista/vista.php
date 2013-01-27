@@ -4,62 +4,51 @@ class  Vista{
 	var $valores=array();
 	
 	//TOD: Documentar estas dos funciones.
-	function mostrarError($campo){
-		if ( !empty($this->errores[$campo]) ){
-			echo $this->errores[$campo];
-		}
-	} 
+	// function mostrarError($campo){
+		// if ( !empty($this->errores[$campo]) ){
+			// echo $this->errores[$campo];
+		// }
+	// } 
 	
-	function mostrarValor($campo){
-		if ( !empty($this->valores[$campo]) ){
-			echo $this->valores[$campo];
-		}
-	}
+	// function mostrarValor($campo){
+		// if ( !empty($this->valores[$campo]) ){
+			// echo $this->valores[$campo];
+		// }
+	// }
 	
-	/* Busca dentro  la carpeta vistas, 
-		accion				.php	DEFAULT
-		controlador/accion 	.php	DEFAULT	
-		ruta/a/vista     	.php	custom
-		
-	*/   
+	//abre un archivo php, a partir de  $APPS_PATH.$_PETICION->modulo.'/vistas/'	
 	function mostrar($vista=''){
 		global $_PETICION;
+		global $APPS_PATH;
 		if ( empty($vista) ){
 			$controlador=$_PETICION->controlador;
 			$controlador.= !empty($_PETICION->controlador)?  '/' : '';
 			$vista=$controlador.$_PETICION->accion;
 		}
-		$rutaVista=$_PETICION->basePath.'vistas/'.$vista.'.php';		
+		$rutaVista=$APPS_PATH.$_PETICION->modulo.'/vistas/'.$vista.'.php';
 		$vista_existe = ( file_exists($rutaVista) ) ? true : false;
 		
 		if ($vista_existe) {
-			$this->antesdeMostrar($vista);
-			require_once($rutaVista); 
-			$this->despuesdeMostrar($vista);
+			//$this->antesdeMostrar($vista);
+			require_once($rutaVista);
+			//$this->despuesdeMostrar($vista);
 			$success=true;
-			$msg='accion render ejecutada con éxito';			
-		}else{					
+			$msg='accion render ejecutada con éxito';
+		}else{
 			$success=false;
-			$msg='No existe la vista: '.$rutaVista;
-			echo $msg;
+			$msg='El recurso no ha sido encontrado: '.$_PETICION->modulo.'/'.$_PETICION->controlador.'/'.$_PETICION->accion;
+			//echo $msg;
 			//header("HTTP/1.0 404".$msg);
 		}
-				
+		
 		return array(
 			'success'=>$success,
 			'msg'=>$msg
 		);
 	}
 			
-	function antesdeMostrar($accion){
 	
-	}
-	
-	function despuesdeMostrar($accion){
-		
-	}
-	
-	function render($controlador = '', $accion = ''){	
+	function render(){	
 		return $this->mostrar();
 	} 
 	
@@ -67,5 +56,4 @@ class  Vista{
 		$this->rutaContenido=$rutaContenido;
 	}
 }
-/**/
 ?>

@@ -3,7 +3,10 @@
 	session_start();	
 
 	//require_once '../config.php';		
-	require_once 'despachador.php';		
+	
+	$APPS_PATH='../apps/';
+	if (!isset($CORE_PATH)) $CORE_PATH='';
+	require_once $CORE_PATH.'despachador.php';		
 	
 	// if (!defined('DEFAULT_MODULE') ) define('DEFAULT_MODULE','default'); 
 	// if (!defined('DEFAULT_CONTROLLER') ) define('DEFAULT_CONTROLLER','paginas'); 
@@ -14,14 +17,19 @@
 	// define ("PATH_CONTROLADORES",PATH_MVC.'controladores/');
 
 	$despachador = new Despachador();
+	// $_PETICION=new Peticion(); //Analiza el url
+	// $despachador->despachar();
 	
 	try{		
 		$_PETICION=new Peticion(); //Analiza el url
-		require_once '../apps/'.$_PETICION->modulo.'/config.php';	
+		require_once $APPS_PATH.$_PETICION->modulo.'/config.php';	
+		
+		// $APPS_PATH='../'.$APPS_PATH.'apps/';
+		// require_once $APPS_PATH.$_PETICION->modulo.'/config.php';	
 		
 		if ( !empty($_PETICION->modulo) ){
-			$rutaControlador='../apps/'.$_PETICION->modulo.'/controladores/'.$_PETICION->controlador.'.php';
-			$_PETICION->basePath='../apps/'.$_PETICION->modulo.'/';
+			$rutaControlador=$APPS_PATH.$_PETICION->modulo.'/controladores/'.$_PETICION->controlador.'.php';
+			$_PETICION->basePath=$APPS_PATH.$_PETICION->modulo.'/';
 		}
 				
 		if ( file_exists($rutaControlador) ){

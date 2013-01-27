@@ -1,29 +1,40 @@
-ï»¿<?php
-require_once '../mvc_core/i_crud.php';
-
+<?php
+require_once $CORE_PATH.'i_crud.php';
+require_once $CORE_PATH.'database.php';
 
 class Modelo implements ICrud{								
 	
-	function getConexion(){		
-		global $DB_CONFIG;
-		
-
-		if ( !isset($this->db) ){
-			try {
-				$db = @new PDO('mysql:host='.$DB_CONFIG['DB_SERVER'].';dbname='.$DB_CONFIG{'DB_NAME'}.';charset=UTF8', $DB_CONFIG['DB_USER'], $DB_CONFIG['DB_PASS'],array(
-					PDO::ATTR_PERSISTENT => true
-				));				
-				$this->db=$db;
-			} catch (PDOException $e) {
-				//print "Error!: " . $e->getMessage() . "<br/>";
-				$resp=array(
-					'success'=>false,
-					'msg'=>"Error al conectarse con la base de datos"
-				);
-				throw new Exception("Error al conectarse con la base de datos");
-			}
+	
+	function getPdo(){
+		$db=Database::getInstance();
+		return $db->pdo;
+	}
+	
+	public function ejecutarSql($sql){
+		$pdo = $this->getPdo();
+		$sth = $pdo->prepare($sql);						
+		return $this->execute($sth);		
+	}
+	
+	function execute($sth){
+		//Ejecuta el statement y revisa errores
+		$exito = $sth->execute();
+			
+		$msg='';
+		if ($exito!==true){
+			$error=$sth->errorInfo();			
+			$success=false;
+			$msg=$error[2];						
+			$datos=array();
+		}else{
+			$datos = $sth->fetchAll(PDO::FETCH_ASSOC);
 		}
-		return $this->db;
+		
+		return array(
+			'success'	=>$success,			
+			'datos' 	=>$datos,
+			'msg'		=>$msg
+		);			
 	}
 /*	===============================================================================
 		ICrud
@@ -38,7 +49,7 @@ class Modelo implements ICrud{
 		$sql = 'SELECT COUNT(id ) as total FROM '.$this->tabla.$filtros;		
 		
 		
-		$con = $this->getConexion();
+		$pdo = $this->getConexion();
 		$sth = $con->prepare($sql);				
 		$sth->execute();
 		$modelos = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -54,28 +65,7 @@ class Modelo implements ICrud{
 		return $modelos[0]['total'];			
 	}
 	
-	public function ejecutar($sql){
-		$con = $this->getConexion();
-		$sth = $con->prepare($sql);						
-		return $this->execute($sth);		
-	}
-	function execute($sth){
-		$exito = $sth->execute();
-		// Manejar error				
-		if ($exito!==true){
-			$error=$sth->errorInfo();
-			$resp=array(
-				'success'=>false,
-				'msg'=>$error[2]
-			);
-			return $resp; 
-		}
-		$res = $sth->fetchAll(PDO::FETCH_ASSOC);
-		return array(
-			'success'=>true,			
-			'datos' =>$res
-		);	
-	}
+	
 	function obtener($params){
 		
 		$id=$params['id'];
@@ -109,26 +99,35 @@ class Modelo implements ICrud{
 		
 		if ( empty($id) ){
 			//           CREAR
-			$sql='INSERT INTO '.$this->tabla.' SET nombre= :nombre , fecha_de_creacion= now()';
+			$sql='INSERT INTO '.$this->tabla.' SET nombre=:nombre, fecha_de_creacion= now()';
 			$sth = $dbh->prepare($sql);							
 			$sth->bindValue(":nombre",$nombre,PDO::PARAM_STR);					
 		}else{
 			//	         ACTUALIZAR
-			$sql='UPDATE '.$this->tabla.' SET nombre= :nombre WHERE i
-			d= :id, fecha_de_actualizacion=now()';
+			$sql='UPDATE '.$this->tabla.' SET nombre=:nombre WHERE id=:id, fecha_de_actualizacion=now()';
 			$sth = $dbh->prepare($sql);							
 			$sth->bindValue(":id",$id,PDO::PARAM_INT);			
 			$sth->bindValue(":nombre",$nombre,PDO::PARAM_STR);
 		}
-			
-		$exito = $sth->execute();
+		$success = $sth->execute();
 		
-		if (!$exito){
-			//Logger->logear   		PENDIENTE: LOGEAR
+		$msg='';
+		if ($success != true){
+			$error=$sth->errorInfo();			
+			$success=false; //plionasmo apropósito
+			$msg=$error[2];						
+			$datos=array();
+		}else{
+			$success = rowCount();			
 		}
 		
-		return $exito;
-	}	
+		return array(
+			'success'	=>$success,			
+			'datos' 	=>$datos,
+			'msg'		=>$msg
+		);	
+				
+	}
 		
 	function borrar( $params ){
 		if ( empty($params['id']) ){
