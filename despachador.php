@@ -31,9 +31,9 @@ class Despachador{
 		//------------------------------------
 		//En caso de no recibir mensaje se establece uno por default
 		if ( $respuesta['success'] == true ){			
-			if ($respuesta['msg'] == null )	$respuesta['msg'] = $msgExito;			
+			if ( !isset($respuesta['msg']) )	$respuesta['msg'] = $msgExito;			
 		}else{			
-			if ($respuesta['msg'] == null )	$respuesta['msg'] = $msgFalla;
+			if ( !isset($respuesta['msg']) )	$respuesta['msg'] = $msgFalla;
 		}
 		return $respuesta;						
 	}

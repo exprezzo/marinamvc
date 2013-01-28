@@ -53,8 +53,10 @@ class UserController extends Controlador{
 	*/
 		
 	function login($username=null, $pass=null){		
+		global $_LOGIN_REDIRECT_PATH;
 		if (  isset($_SESSION['isLoged']) && $_SESSION['isLoged']===true ){			
-			header('Location: '.LOGIN_REDIRECT_PATH);					
+			echo 'asd'.$_LOGIN_REDIRECT_PATH;
+			header('Location: '.$_LOGIN_REDIRECT_PATH);					
 		}
 		
 		if ($_SERVER['REQUEST_METHOD']!='POST'){
@@ -99,7 +101,7 @@ class UserController extends Controlador{
 		
 		if ($resp['success']==true){
 			
-			header('Location: '.LOGIN_REDIRECT_PATH); // 
+			header('Location: '.$_LOGIN_REDIRECT_PATH); // 
 			exit;
 		}else{
 			

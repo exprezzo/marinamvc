@@ -9,6 +9,9 @@ class Modelo implements ICrud{
 		$db=Database::getInstance();
 		return $db->pdo;
 	}
+	function getConexion(){
+		return $this->getPdo();
+	}
 	
 	public function ejecutarSql($sql){
 		$pdo = $this->getPdo();
@@ -28,6 +31,7 @@ class Modelo implements ICrud{
 			$datos=array();
 		}else{
 			$datos = $sth->fetchAll(PDO::FETCH_ASSOC);
+			$success=true;
 		}
 		
 		return array(

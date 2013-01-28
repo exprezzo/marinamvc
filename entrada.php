@@ -22,6 +22,11 @@
 	
 	try{		
 		$_PETICION=new Peticion(); //Analiza el url
+		
+		if ( !file_exists($APPS_PATH.$_PETICION->modulo.'/config.php') ){
+			header("HTTP/1.0 404 Not Found".'El recurso no existe');
+			exit;
+		}
 		require_once $APPS_PATH.$_PETICION->modulo.'/config.php';	
 		
 		// $APPS_PATH='../'.$APPS_PATH.'apps/';
