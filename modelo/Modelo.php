@@ -3,7 +3,7 @@ require_once $CORE_PATH.'i_crud.php';
 require_once $CORE_PATH.'database.php';
 
 class Modelo implements ICrud{								
-	
+	var $pk='id';
 	
 	function getPdo(){
 		$db=Database::getInstance();
@@ -72,9 +72,9 @@ class Modelo implements ICrud{
 	
 	function obtener($params){
 		
-		$id=$params['id'];
+		$id=$params[$this->pk];
 				
-		$sql = 'SELECT * FROM '.$this->tabla.' WHERE id=:id';		
+		$sql = 'SELECT * FROM '.$this->tabla.' WHERE '.$this->pk.'=:id';		
 		
 		
 		$con = $this->getConexion();
