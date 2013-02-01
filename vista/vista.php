@@ -17,6 +17,16 @@ class  Vista{
 	// }
 	
 	//abre un archivo php, a partir de  $APPS_PATH.$_PETICION->modulo.'/vistas/'	
+	function getRutaBase(){
+		global $_PETICION;
+		return '/web/apps/'.$_PETICION->modulo.'/';
+	}
+	
+	function cargarJs($ruta){
+		global $_PETICION;
+		echo '<script src="/web/apps/'.$_PETICION->modulo.'/'.$ruta.'" type="text/javascript"></script>';		
+	}
+	
 	function mostrar($vista=''){
 		global $_PETICION;
 		global $APPS_PATH;
