@@ -4,6 +4,15 @@ require_once $CORE_PATH.'database.php';
 
 class Modelo implements ICrud{								
 	var $pk='id';
+
+	function getError($sth){
+		$resp=array();
+		$error=$sth->errorInfo();
+		
+		$resp['success']=false;			
+		$resp['msg']=$error[2];
+		return $resp;
+	}
 	
 	function getPdo(){
 		$db=Database::getInstance();
