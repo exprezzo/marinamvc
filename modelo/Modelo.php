@@ -81,8 +81,7 @@ class Modelo implements ICrud{
 	
 	function obtener($params){
 		
-		$id=$params[$this->pk];
-				
+		$id=$params[$this->pk];			
 		$sql = 'SELECT * FROM '.$this->tabla.' WHERE '.$this->pk.'=:id';		
 		
 		
