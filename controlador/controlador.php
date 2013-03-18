@@ -52,5 +52,97 @@ class Controlador{
 		}	
 		return $this->modObj;
 	}		
+	function editar(){
+		$id=$_REQUEST['id'];
+		$model=$this->getModel();
+		$params=array(
+			'id'=>$id
+		);
+		
+		$obj=$model->obtener( $params );		
+		$vista=$this->getVista();
+		
+		$vista->datos=$obj;
+		$vista->mostrar();
+	}
+	
+	function nuevo(){
+		global $_PETICION;
+		$_PETICION->accion='editar';
+		return $this->editar();	
+	}
+	function nueva(){
+		global $_PETICION;
+		$_PETICION->accion='editar';
+		return $this->editar();	
+	}
+	function guardar(){
+		
+		
+		if ( empty($_POST['datos']) ){
+			$res=array(
+				'success'=>false,
+				'msg'=>'No se recibieron datos para almacenar'
+			);
+			echo json_encode($res); exit;
+		}
+		$datos= $_POST['datos'];
+		
+		$model=$this->getModel();				
+		$res = $model->guardar($datos);
+		
+		if (!$res['success']) {			
+			echo json_encode($res); exit;
+		}
+		// $pk=$res['datos']['id'];
+		
+		$datos=$res['datos'];
+		
+		//----------------
+		
+		$res['datos']=$datos;		
+		echo json_encode($res);
+	}
+	function paginar(){
+		$mod=$this->getModel();		
+		$paging=$_GET['paging']; //Datos de paginacion enviados por el componente js
+		if ($paging['pageSize']<0) $paging['pageSize']=0;
+		$params=array(	//Se traducen al lenguaje sql
+			'limit'=>$pageSize=intval($paging['pageSize']),
+			'start'=>intval($paging['pageIndex'])*$pageSize			
+		);
+		
+		$res=$mod->paginar($params);				
+		if ( !$res['success'] ){
+			echo json_encode($res); exit;
+		}
+		
+		
+		$respuesta=array(
+			'rows'=>$res['datos'],
+			'totalRows'=> $res['total']
+		);
+		echo json_encode($respuesta);
+	}
+	function eliminar(){
+		$modObj= $this->getModel();
+		$params=array();
+		
+		if ( !isset($_POST['id']) ){
+			$id=$_POST['datos'];
+		}else{
+			$id=$_POST['id'];
+		}
+		$params['id']=$id;
+		
+		$res=$modObj->borrar($params);
+		
+		$response=array(
+			'success'=>$res,
+			'msg'=>'Registro Eliminado'
+		);
+		echo json_encode($response);
+		exit;
+	}
 }
 ?>

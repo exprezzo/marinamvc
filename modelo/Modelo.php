@@ -140,7 +140,10 @@ class Modelo implements ICrud{
 		);	
 				
 	}
-		
+	
+	function eliminar($params){
+		return $this->borrar($params);
+	}
 	function borrar( $params ){
 		if ( empty($params['id']) ){
 			throw new Exeption("Es necesario el parámetro 'id'");
@@ -170,7 +173,7 @@ class Modelo implements ICrud{
 		
 		$sth = $con->prepare($sql);
 		$sth->bindValue(':limit',$limit,PDO::PARAM_INT);
-		//$sth->bindValue(':start',$start,PDO::PARAM_STR);
+		// $sth->bindValue(':start',$start,PDO::PARAM_STR);
 		$exito = $sth->execute();
 
 		$modelos = $sth->fetchAll(PDO::FETCH_ASSOC);				
