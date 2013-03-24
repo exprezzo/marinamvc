@@ -93,7 +93,8 @@ class Modelo implements ICrud{
 		
 		if ( empty($modelos) ){
 			//throw new Exception(); //TODO: agregar numero de error, crear una exception MiEscepcion
-			return array();
+			
+			return array('success'=>false,'error'=>'no encontrado','msg'=>'no encontrado');
 		}
 		
 		if ( sizeof($modelos) > 1 ){
@@ -166,11 +167,11 @@ class Modelo implements ICrud{
 		
 		$limit=$params['limit'];
 		$start=$params['start'];		
-		$sql = 'SELECT * FROM '.$this->tabla.' limit 0,:limit';
+		$sql = 'SELECT * FROM '.$this->tabla.' limit :start,:limit';
 		
 		$sth = $con->prepare($sql);
 		$sth->bindValue(':limit',$limit,PDO::PARAM_INT);
-		//$sth->bindValue(':start',$start,PDO::PARAM_STR);
+		$sth->bindValue(':start',$start,PDO::PARAM_INT);
 		$exito = $sth->execute();
 
 		$modelos = $sth->fetchAll(PDO::FETCH_ASSOC);				
