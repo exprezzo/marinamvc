@@ -141,7 +141,10 @@ class Modelo implements ICrud{
 		);	
 				
 	}
-		
+	
+	function eliminar($params){
+		return $this->borrar($params);
+	}
 	function borrar( $params ){
 		if ( empty($params['id']) ){
 			throw new Exeption("Es necesario el parámetro 'id'");
