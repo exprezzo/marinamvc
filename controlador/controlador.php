@@ -128,6 +128,7 @@ class Controlador{
 		
 		$res['datos']=$datos;		
 		echo json_encode($res);
+		return $res;
 	}
 	function paginar(){
 		$mod=$this->getModel();		
