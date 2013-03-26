@@ -51,13 +51,12 @@ class Controlador{
 	// }				
 	
 	function nuevo(){
-		$vista=$this->getVista();				
+		$vista=$this->getVista();	
+		global $_PETICION;
 		return $vista->mostrar('/'.$_PETICION->controlador.'/edicion');
 	}
-	function guardar(){
-	}
-	function borrar(){
-	}
+	
+	
 	function editar(){
 		// header("Content-Type: text/html;charset=utf-8");
 		
@@ -101,30 +100,8 @@ class Controlador{
 		}	
 		return $this->modObj;
 	}		
-	function editar(){
-		$id=$_REQUEST['id'];
-		$model=$this->getModel();
-		$params=array(
-			'id'=>$id
-		);
-		
-		$obj=$model->obtener( $params );		
-		$vista=$this->getVista();
-		
-		$vista->datos=$obj;
-		$vista->mostrar();
-	}
 	
-	function nuevo(){
-		global $_PETICION;
-		$_PETICION->accion='editar';
-		return $this->editar();	
-	}
-	function nueva(){
-		global $_PETICION;
-		$_PETICION->accion='editar';
-		return $this->editar();	
-	}
+
 	function guardar(){
 		
 		
