@@ -2,7 +2,7 @@
 require $CORE_PATH.'modelo/Modelo.php';
 class Controlador{
 	var $modelo='Modelo';
-	
+	var $campos=array('id');
 	function servir(){
 		//existe la funcion, la ejecuta,
 		
@@ -50,12 +50,25 @@ class Controlador{
 		// return $this->mostrarErrores($errores);		
 	// }				
 	
-	function nuevo(){
-		$vista=$this->getVista();	
-		global $_PETICION;
-		return $vista->mostrar('/'.$_PETICION->controlador.'/edicion');
-	}
+	// function nuevo(){
+		// $vista=$this->getVista();	
+		// global $_PETICION;
+		// return $vista->mostrar('/'.$_PETICION->controlador.'/edicion');
+	// }
 	
+	function nuevo(){		
+		$campos=$this->campos;
+		$vista=$this->getVista();				
+		for($i=0; $i<sizeof($campos); $i++){
+			$obj[$campos[$i]]='';
+		}
+		$vista->datos=$obj;		
+		
+		global $_PETICION;
+		$vista->mostrar('/'.$_PETICION->controlador.'/edicion');
+		
+		
+	}
 	
 	function editar(){
 		// header("Content-Type: text/html;charset=utf-8");
@@ -76,15 +89,20 @@ class Controlador{
 	
 	function buscar(){
 		$mod=$this->getModel();
-				
-		$paging=$_GET['paging']; //Datos de paginacion enviados por el componente js
-		if ($paging['pageSize']<0) $paging['pageSize']=0;
-		$params=array(	//Se traducen al lenguaje sql
-			'limit'=>$pageSize=intval($paging['pageSize']),
-			'start'=>intval($paging['pageIndex'])*$pageSize		
-		);
 		
-		$res=$mod->paginar($params);				
+		if (!empty($_GET['paging']) ){
+			$paging=$_GET['paging']; //Datos de paginacion enviados por el componente js
+			if ($paging['pageSize']<0) $paging['pageSize']=0;
+			$params=array(	//Se traducen al lenguaje sql
+				'limit'=>$pageSize=intval($paging['pageSize']),
+				'start'=>intval($paging['pageIndex'])*$pageSize		
+			);
+		}else{
+			$params=array(	);
+		}
+		
+		
+		$res=$mod->buscar($params);				
 		
 		$respuesta=array(
 			'rows'=>$res['datos'],
@@ -131,25 +149,7 @@ class Controlador{
 		return $res;
 	}
 	function paginar(){
-		$mod=$this->getModel();		
-		$paging=$_GET['paging']; //Datos de paginacion enviados por el componente js
-		if ($paging['pageSize']<0) $paging['pageSize']=0;
-		$params=array(	//Se traducen al lenguaje sql
-			'limit'=>$pageSize=intval($paging['pageSize']),
-			'start'=>intval($paging['pageIndex'])*$pageSize			
-		);
-		
-		$res=$mod->paginar($params);				
-		if ( !$res['success'] ){
-			echo json_encode($res); exit;
-		}
-		
-		
-		$respuesta=array(
-			'rows'=>$res['datos'],
-			'totalRows'=> $res['total']
-		);
-		echo json_encode($respuesta);
+		return $this->buscar();
 	}
 	function eliminar(){
 		$modObj= $this->getModel();

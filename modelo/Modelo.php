@@ -191,6 +191,10 @@ class Modelo implements ICrud{
 	}
 	
 	function paginar($params){
+		return $this->buscar($params);
+	}
+	function buscar($params){
+		
 		$con = $this->getConexion();
 		
 		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla;
@@ -198,13 +202,25 @@ class Modelo implements ICrud{
 		$tot = $sth->fetchAll(PDO::FETCH_ASSOC);
 		$total = $tot[0]['total'];
 		
-		$limit=$params['limit'];
-		$start=$params['start'];		
-		$sql = 'SELECT * FROM '.$this->tabla.' limit :start,:limit';
+		$paginar=false;
+		if ( isset($params['limit']) && isset($params['start']) ){
+			$paginar=true;
+		}
+		if ($paginar){
+			$limit=$params['limit'];
+			$start=$params['start'];		
+			$sql = 'SELECT * FROM '.$this->tabla.' limit :start,:limit';
+		}else{			
+			$sql = 'SELECT * FROM '.$this->tabla.' ';
+		}
+		
 		
 		$sth = $con->prepare($sql);
-		$sth->bindValue(':limit',$limit,PDO::PARAM_INT);
-		$sth->bindValue(':start',$start,PDO::PARAM_INT);
+		if ($paginar){
+			$sth->bindValue(':limit',$limit,PDO::PARAM_INT);
+			$sth->bindValue(':start',$start,PDO::PARAM_INT);
+		}
+		
 		$exito = $sth->execute();
 
 		$modelos = $sth->fetchAll(PDO::FETCH_ASSOC);				
