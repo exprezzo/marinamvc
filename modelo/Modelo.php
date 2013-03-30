@@ -93,7 +93,7 @@ class Modelo implements ICrud{
 		if ( empty($modelos) ){
 			//throw new Exception(); //TODO: agregar numero de error, crear una exception MiEscepcion
 			
-			return array('success'=>false,'error'=>'no encontrado','msg'=>'no encontrado');
+			return array('success'=>false,'error'=>'no encontrado','msg'=>'no encontrado id:'.$id);
 		}
 		
 		if ( sizeof($modelos) > 1 ){
