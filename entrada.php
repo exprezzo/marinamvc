@@ -1,4 +1,5 @@
 <?php	
+	
 	//  AQUI INICIA EL PROCESO
 	session_start();	
 	ini_set('date.timezone', 'America/Mazatlan');
@@ -26,7 +27,7 @@
 	//	print_r($_PETICION); 
 		$configPath=$APPS_PATH.$_PETICION->modulo.'/config.php';
 		if ( !file_exists($configPath) ){
-			echo $configPath;exit;
+			// echo $configPath;exit;
 			header("HTTP/1.0 404 Not Found".'El recurso no existe');
 			exit;
 		}
