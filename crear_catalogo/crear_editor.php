@@ -1,5 +1,6 @@
 <?php
 function crear_editor($nombreControlador, $nombreModelo,$campos){
+	global $_PETICION;
 	$ruta='..//apps/'.$_PETICION->modulo.'/vistas/'.$nombreControlador.'/';	
 	$divs='';
 	for($i=0; $i<sizeof($campos); $i++ ){

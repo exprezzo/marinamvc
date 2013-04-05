@@ -4,9 +4,11 @@ class UserController extends Controlador{
 	var $validarCaptcha=true;
 	
 	
-	function logout(){		
+	function logout(){	
+		// ob_start();
 		$model=$this->getModel();
 		$model->logout();
+		// ob_end_clean();
 		header ('Location: /index.php');
 	}
 	
@@ -55,7 +57,7 @@ class UserController extends Controlador{
 	function login($username=null, $pass=null){		
 		global $_LOGIN_REDIRECT_PATH;
 		if (  isset($_SESSION['isLoged']) && $_SESSION['isLoged']===true ){			
-			echo 'asd'.$_LOGIN_REDIRECT_PATH;
+			// echo 'asd'.$_LOGIN_REDIRECT_PATH;
 			header('Location: '.$_LOGIN_REDIRECT_PATH);					
 		}
 		

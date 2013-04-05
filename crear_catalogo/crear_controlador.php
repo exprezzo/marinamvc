@@ -1,5 +1,6 @@
 <?php
 function crear_controlador($nombreControlador, $nombreModelo,$fields){
+	global $_PETICION;
 	$ruta='..//apps/'.$_PETICION->modulo.'/controladores/';	
 	
 	$fieldsStr='array(';

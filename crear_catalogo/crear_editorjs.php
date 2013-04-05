@@ -1,5 +1,6 @@
 <?php
 function crear_editorjs($nombreControlador, $nombreModelo){
+	global $_PETICION;
 	$ruta='..//web/apps/'.$_PETICION->modulo.'/js/catalogos/'.$nombreControlador.'/';	
 	
 	
