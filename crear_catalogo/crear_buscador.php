@@ -1,7 +1,7 @@
 <?php
 function crear_buscador($nombreControlador, $nombreModelo){
 	global $_PETICION;
-	$ruta='../apps/'.$_PETICION->modulo.'/vistas/'.$nombreControlador.'/';	
+	$ruta='../'.$_PETICION->modulo.'/vistas/'.$nombreControlador.'/';	
 	
 	if ( !file_exists($ruta) ){
 		mkdir($ruta, 0700);
@@ -9,7 +9,7 @@ function crear_buscador($nombreControlador, $nombreModelo){
 	
 
 $contenido='
-<script src="/web/apps/<?php echo $_PETICION->modulo; ?>/js/catalogos/<?php echo $_PETICION->controlador; ?>/busqueda.js"></script>
+<script src="/web/<?php echo $_PETICION->modulo; ?>/js/catalogos/<?php echo $_PETICION->controlador; ?>/busqueda.js"></script>
 
 <script>			
 	$( function(){		

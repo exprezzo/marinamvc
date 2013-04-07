@@ -1,7 +1,7 @@
 <?php
 function crear_editor($nombreControlador, $nombreModelo,$campos){
 	global $_PETICION;
-	$ruta='..//apps/'.$_PETICION->modulo.'/vistas/'.$nombreControlador.'/';	
+	$ruta='../'.$_PETICION->modulo.'/vistas/'.$nombreControlador.'/';	
 	$divs='';
 	for($i=0; $i<sizeof($campos); $i++ ){
 		if ($campos[$i]=='id') continue;
@@ -13,7 +13,7 @@ function crear_editor($nombreControlador, $nombreModelo,$campos){
 		</div>';
 	}
 $contenido='
-<script src="/web/apps/<?php echo $_PETICION->modulo; ?>/js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
+<script src="/web/<?php echo $_PETICION->modulo; ?>/js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
 
 <script>			
 	$( function(){		

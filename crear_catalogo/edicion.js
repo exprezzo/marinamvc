@@ -38,6 +38,7 @@
 		
 		
 		this.agregarClase('frm'+this.controlador.nombre);		
+		this.agregarClase('tab_'+this.controlador.nombre);
 		
 		this.configurarFormulario(this.tabId);
 		this.configurarToolbar(this.tabId);		
@@ -141,9 +142,9 @@
 			
 			if ( resp.success == true	){
 				if (resp.msgType!=undefined && resp.msgType == 'info'){
-					icon='/web/apps/'+kore.modulo+'/images/yes.png';
+					icon='/web/'+kore.modulo+'/images/yes.png';
 				}else{
-					icon='/web/apps/'+kore.modulo+'/images/info.png';
+					icon='/web/'+kore.modulo+'/images/info.png';
 				}
 				
 				title= 'Success';
@@ -175,7 +176,7 @@
 					}
 				}
 			}else{
-				icon= '/web/apps/'+kore.modulo+'/images/error.png';
+				icon= '/web/'+kore.modulo+'/images/error.png';
 				title= 'Error';					
 				$.gritter.add({
 					position: 'bottom-left',
@@ -203,10 +204,10 @@
 				var msg= (resp.msg)? resp.msg : '';
 				var title;
 				if ( resp.success == true	){					
-					icon='/web/apps/'+kore.modulo+'/images/yes.png';
+					icon='/web/'+kore.modulo+'/images/yes.png';
 					title= 'Success';									
 				}else{
-					icon= '/web/apps/'+kore.modulo+'/images/error.png';
+					icon= '/web/'+kore.modulo+'/images/error.png';
 					title= 'Error';
 				}
 				

@@ -1,7 +1,7 @@
 <?php
 function crear_modelo($nombreModelo, $tabla, $fields){
 	global $_PETICION;
-	$ruta='../apps/'.$_PETICION->modulo.'/modelos/';	
+	$ruta='../'.$_PETICION->modulo.'/modelos/';	
 	
 	$fieldsStr='array(';
 	for($i=0; $i<sizeof($fields); $i++ ){

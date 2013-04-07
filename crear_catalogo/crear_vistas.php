@@ -1,7 +1,7 @@
 <?php
 function crear_vistas($nombreControlador, $nombreModelo){
 	global $_PETICION;
-	$ruta='..//apps/'.$_PETICION->modulo.'/vistas/'.$nombreControlador.'/';	
+	$ruta='../'.$_PETICION->modulo.'/vistas/'.$nombreControlador.'/';	
 	
 	mkdir($ruta, 0700);
 

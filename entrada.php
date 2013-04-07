@@ -6,9 +6,13 @@
 	
 	//require_once '../config.php';		
 	
-	$APPS_PATH='../apps/';
+	$APPS_PATH='../';
 	if (!isset($CORE_PATH)) $CORE_PATH='';
 	require_once $CORE_PATH.'despachador.php';		
+	
+	if (!defined('DEFAULT_APP') ) define('DEFAULT_APP','portal');
+	if (!defined('DEFAULT_CONTROLLER') ) define('DEFAULT_CONTROLLER','paginas');
+	if (!defined('DEFAULT_ACTION') ) define('DEFAULT_ACTION','index');
 	
 	// if (!defined('DEFAULT_MODULE') ) define('DEFAULT_MODULE','default'); 
 	// if (!defined('DEFAULT_CONTROLLER') ) define('DEFAULT_CONTROLLER','paginas'); 

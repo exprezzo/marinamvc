@@ -13,12 +13,12 @@
 			var msg= (resp.msg)? resp.msg : '';
 			var title;
 			if ( resp.success == true	){
-				icon='/web/apps/'+kore.modulo+'/images/yes.png';
+				icon='/web/'+kore.modulo+'/images/yes.png';
 				title= 'Success';				
 				var gridBusqueda=$(me.tabId+" .grid_busqueda");				
 				gridBusqueda.wijgrid('ensureControl', true);
 			}else{
-				icon= '/web/apps/'+kore.modulo+'/images/error.png';
+				icon= '/web/'+kore.modulo+'/images/error.png';
 				title= 'Error';
 			}
 			
@@ -110,7 +110,7 @@
 							position: 'bottom-left',
 							title:cmd.commandName,
 							text: "Acciones del toolbar en construcci&oacute;n",
-							image: '/web/apps/'+kore.modulo+'/images/info.png',
+							image: '/web/'+kore.modulo+'/images/info.png',
 							class_name: 'my-sticky-class'
 						});
 						

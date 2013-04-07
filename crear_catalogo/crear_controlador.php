@@ -1,7 +1,7 @@
 <?php
 function crear_controlador($nombreControlador, $nombreModelo,$fields){
 	global $_PETICION;
-	$ruta='..//apps/'.$_PETICION->modulo.'/controladores/';	
+	$ruta='../'.$_PETICION->modulo.'/controladores/';	
 	
 	$fieldsStr='array(';
 	for($i=0; $i<sizeof($fields); $i++ ){
@@ -12,7 +12,7 @@ function crear_controlador($nombreControlador, $nombreModelo,$fields){
 	$fieldsStr.=')';
 	
 $contenido='<?php
-require_once \'../apps/\'.$_PETICION->modulo.\'/modelos/'.$nombreModelo.'_modelo.php\';
+require_once \'../\'.$_PETICION->modulo.\'/modelos/'.$nombreModelo.'_modelo.php\';
 class '.$nombreControlador.' extends Controlador{
 	var $modelo="'.$nombreModelo.'";
 	var $campos='.$fieldsStr.';
