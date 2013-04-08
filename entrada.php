@@ -4,7 +4,7 @@
 	session_start();	
 	ini_set('date.timezone', 'America/Mazatlan');
 	
-	//require_once '../config.php';		
+	require_once '../config.php';		
 	
 	$APPS_PATH='../';
 	if (!isset($CORE_PATH)) $CORE_PATH='';
