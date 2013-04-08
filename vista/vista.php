@@ -30,6 +30,7 @@ class  Vista{
 	function mostrar($vista=''){
 		global $_PETICION;
 		global $APPS_PATH;
+		global $APP_CONFIG;
 		if ( empty($vista) ){
 			$controlador=$_PETICION->controlador;
 			$controlador.= !empty($_PETICION->controlador)?  '/' : '';
