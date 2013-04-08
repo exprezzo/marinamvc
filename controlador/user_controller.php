@@ -9,7 +9,7 @@ class UserController extends Controlador{
 		$model=$this->getModel();
 		$model->logout();
 		// ob_end_clean();
-		header ('Location: /index.php');
+		header ('Location: /');
 	}
 	
 	
@@ -195,9 +195,11 @@ class UserController extends Controlador{
 			if ($_SERVER['REQUEST_METHOD']=='POST') {
 				$userMod = $this->getModel();
 				$user = $userMod->findByEmail($_GET['email']);
-
+				global $DB_CONFIG;
+				$_PASS_AES=$DB_CONFIG['PASS_AES'];
+				
 				$sql='UPDATE system_users SET
-				pass=AES_ENCRYPT("'.$_POST['new_password'].'", '.PASS_AES.') WHERE id = '.$user['id'];
+				pass=AES_ENCRYPT("'.$_POST['new_password'].'", '.$_PASS_AES.') WHERE id = '.$user['id'];
 
 				$con = $userMod->getConexion();
 				$sth = $con->prepare($sql);

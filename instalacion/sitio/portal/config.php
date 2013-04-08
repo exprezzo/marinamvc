@@ -1,27 +1,13 @@
 <?php
-//$APP_URL='http://'.$_SERVER['SERVER_NAME']; 
 $DB_CONFIG=array(
 	'DB_SERVER'	=>'localhost',
-	'DB_NAME'	=>'mm',
+	'DB_NAME'	=>'app_db',
 	'DB_USER'	=>'root',
-	'DB_PASS'	=>''
+	'DB_PASS'	=>'',
+	'PASS_AES'  =>'un4_c4d3n4_p*r4_encr!pt#r'
 );
 
-if (!defined('DEFAULT_APP') ) define('DEFAULT_APP','tc');
-if (!defined('DEFAULT_CONTROLLER') ) define('DEFAULT_CONTROLLER','sistema');
-if (!defined('DEFAULT_ACTION') ) define('DEFAULT_ACTION','index');
-
-$_LOGIN_REDIRECT_PATH = '/'.DEFAULT_APP.'/'.DEFAULT_CONTROLLER.'/'.DEFAULT_ACTION;
-// Configuracion del ssitio
-define ("NOMBRE_APL",'TC');
-define ("PASS_AES",'mu1894sa3s');
-
-define ("TEMA",'cobalt');
-// define ("TEMA",'black-tie');
-
-define ("PATH_MVC",'../mvc/');
-//define ("DEFAULT_CONTROLLER",'general');
-// CONFIGURA LA RUTA DEL NUCLEO
-define ("PATH_NUCLEO",'../mvc_core/');
-
+$APP_CONFIG=array(
+	'nombre'=>'Nombre de la aplicación'
+);
 ?>

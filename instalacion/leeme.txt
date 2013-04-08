@@ -1,0 +1,7 @@
+crear carpeta apps y web/apps, crear archivo index.php y config.php y .htacces
+preguntar el nombre de la aplicacion, y datos de la base de datos
+crear archivo config.php
+crear carpetas controladores, modelos y vistas
+crear un controlador portal y vista index
+crear controlador sistema y vista index
+agregar los archivos css y js, copiar las librerias de wijmo y jquery

@@ -5,11 +5,14 @@ class UserModel extends Modelo{
 	function login($username, $pass){
 		//si el username es un email, se busca por email y pass
 		//si no, se busca por username y pass
-		
+
+		global $DB_CONFIG;
+		$_PASS_AES=$DB_CONFIG['PASS_AES'];
+				
 		if ( filter_var($username, FILTER_VALIDATE_EMAIL) ) {
-			$sql = 'SELECT * FROM '.$this->tabla.' WHERE email=:username and :pass=AES_DECRYPT(pass, "'.PASS_AES.'")';
+			$sql = 'SELECT * FROM '.$this->tabla.' WHERE email=:username and :pass=AES_DECRYPT(pass, "'.$_PASS_AES.'")';
 		}else{
-			$sql = 'SELECT * FROM '.$this->tabla.' WHERE nick=:username and :pass=AES_DECRYPT(pass, "'.PASS_AES.'")';
+			$sql = 'SELECT * FROM '.$this->tabla.' WHERE nick=:username and :pass=AES_DECRYPT(pass, "'.$_PASS_AES.'")';
 		}									
 		
 		$con = $this->getPdo();
@@ -71,7 +74,10 @@ class UserModel extends Modelo{
 	function registrar($nick, $email, $pass,$nombre){
 		$dbh=$this->getPdo();
 		
-		$sql='INSERT INTO system_users SET nick=:nick , pass=AES_ENCRYPT(:pass, "'.PASS_AES.'"), name=:name,email=:email';
+		global $DB_CONFIG;
+		$_PASS_AES=$DB_CONFIG['PASS_AES'];
+		
+		$sql='INSERT INTO system_users SET nick=:nick , pass=AES_ENCRYPT(:pass, "'.$_PASS_AES.'"), name=:name,email=:email';
 		$sth = $dbh->prepare($sql);		
 		
 		$sth->bindValue(':nick', $nick,  PDO::PARAM_STR);							
@@ -210,7 +216,10 @@ class UserModel extends Modelo{
 		$this->registrarEnSesion($user);
 	}
 	function compruebaPass($id,$pass){
-		$sql = 'SELECT * FROM '.$this->tabla.' WHERE id=:id and :pass=AES_DECRYPT(pass, "'.PASS_AES.'")';
+		global $DB_CONFIG;
+		$_PASS_AES=$DB_CONFIG['PASS_AES'];
+		
+		$sql = 'SELECT * FROM '.$this->tabla.' WHERE id=:id and :pass=AES_DECRYPT(pass, "'.$_PASS_AES.'")';
 		
 		$con = $this->getPdo();
 		$sth = $con->prepare($sql);		
@@ -240,7 +249,10 @@ class UserModel extends Modelo{
 	}
 	
 	function updatePass($id,$pass){
-		$sql = 'UPDATE '.$this->tabla.' SET pass=AES_ENCRYPT(:pass, "'.PASS_AES.'") WHERE id=:id ';
+		global $DB_CONFIG;
+		$_PASS_AES=$DB_CONFIG['PASS_AES'];
+		
+		$sql = 'UPDATE '.$this->tabla.' SET pass=AES_ENCRYPT(:pass, "'.$_PASS_AES.'") WHERE id=:id ';
 		
 		$con = $this->getPdo();
 		$sth = $con->prepare($sql);		

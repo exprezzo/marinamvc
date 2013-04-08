@@ -6,13 +6,24 @@
 	
 	require_once '../config.php';		
 	
+	
+	$_DEFAULT_APP='paginas';
+	
+	if (!isset($_DEFAULT_CONTROLLER) ) $_DEFAULT_CONTROLLER='paginas';
+	if (!isset($_DEFAULT_ACTION) ) $_DEFAULT_ACTION='inicio';
+	
+	// $DEFAULT_APP=$APP_CONFIG['nombre'];
+	
+	
+	if (!isset($_LOGIN_REDIRECT_PATH) )  $_LOGIN_REDIRECT_PATH= '/'.$_DEFAULT_APP.'/'.$_DEFAULT_CONTROLLER.'/'.$_DEFAULT_ACTION;
+	
 	$APPS_PATH='../';
 	if (!isset($CORE_PATH)) $CORE_PATH='';
 	require_once $CORE_PATH.'despachador.php';		
 	
-	if (!defined('DEFAULT_APP') ) define('DEFAULT_APP','portal');
-	if (!defined('DEFAULT_CONTROLLER') ) define('DEFAULT_CONTROLLER','paginas');
-	if (!defined('DEFAULT_ACTION') ) define('DEFAULT_ACTION','index');
+	// if (!defined('DEFAULT_APP') ) define('DEFAULT_APP','portal');
+	// if (!defined('DEFAULT_CONTROLLER') ) define('DEFAULT_CONTROLLER','paginas');
+	// if (!defined('DEFAULT_ACTION') ) define('DEFAULT_ACTION','index');
 	
 	// if (!defined('DEFAULT_MODULE') ) define('DEFAULT_MODULE','default'); 
 	// if (!defined('DEFAULT_CONTROLLER') ) define('DEFAULT_CONTROLLER','paginas'); 
