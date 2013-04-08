@@ -28,7 +28,7 @@ class Peticion{
 		$xp = explode ( '/', $url);		
 		$size=sizeof($xp);
 		$modulo='';
-		
+		global $_DEFAULT_APP,$_DEFAULT_CONTROLLER,$_DEFAULT_ACTION;
 		switch($size){
 			case 1:		//no Escribio nada
 				@include '../config.php';					
@@ -37,7 +37,7 @@ class Peticion{
 				$accion=$_DEFAULT_ACTION;				
 			break;
 			case 2:	// solo escribió un parametro  ( la accion )
-				@include '../config.php';	
+				@include '../config.php';					
 				$modulo		=$_DEFAULT_APP;
 				$controlador=$_DEFAULT_CONTROLLER;
 				$accion		=$xp[1];
