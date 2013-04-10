@@ -193,12 +193,89 @@ class Modelo implements ICrud{
 	function paginar($params){
 		return $this->buscar($params);
 	}
+	
+	
+	
+	function cadenaDeFiltros($filtros){
+		$cadena=' WHERE ';
+		foreach($filtros as $filtro){
+			switch( strtolower( $filtro['filterOperator'] ) ){
+				case 'equals':				
+				case 'contains':				
+				case 'beginswith':					
+				case 'endswith':
+					$cadena.=' '.$filtro['dataKey'].' LIKE :'.$filtro['dataKey'].', ';
+				break;
+				case 'greater':				
+					$cadena.=' '.$filtro['dataKey'].' > :'.$filtro['dataKey'].', ';
+				break;
+				case 'greaterorequal':
+					$cadena.=' '.$filtro['dataKey'].' >= :'.$filtro['dataKey'].', ';
+				break;
+				case 'isempty':
+					$cadena.=' '.$filtro['dataKey'].' = "", ';
+				break;
+			}
+		}
+		
+		$cadena = substr($cadena, 0,-2);
+		
+		return $cadena;
+	}
+	
+	function bindFiltros($sth,$filtros){
+		foreach($filtros as $filtro){
+			switch( strtolower( $filtro['filterOperator'] ) ){
+				case 'equals':									
+					$sth->bindValue(':'.$filtro['dataKey'], $filtro['filterValue'], PDO::PARAM_STR);
+				break;
+				case 'contains':				
+					$sth->bindValue(':'.$filtro['dataKey'], '%'.$filtro['filterValue'].'%', PDO::PARAM_STR);
+				break;
+				case 'beginswith':					
+					$sth->bindValue(':'.$filtro['dataKey'], $filtro['filterValue'].'%', PDO::PARAM_STR);
+				break;
+				case 'endswith':
+					$sth->bindValue(':'.$filtro['dataKey'], '%'.$filtro['filterValue'], PDO::PARAM_STR);
+				break;
+				case 'greater':
+					$sth->bindValue(':'.$filtro['dataKey'], floatval( $filtro['filterValue'] ), PDO::PARAM_STR);
+				break;
+				case 'greaterorequal':				
+					$sth->bindValue(':'.$filtro['dataKey'], floatval( $filtro['filterValue'] ), PDO::PARAM_STR);
+				break;
+				case 'isempty':				
+					// aqui no se usan parametros (se usa campo='' ) 
+				break;
+			}
+			
+		}
+	}
+	
 	function buscar($params){
 		
 		$con = $this->getConexion();
 		
-		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla;
-		$sth = $con->query($sql); // Simple, but has several drawbacks		
+		$filtros='';
+		if ( isset($params['filtros']) )
+			$filtros=$this->cadenaDeFiltros($params['filtros']);
+			
+		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla.$filtros;				
+		$sth = $con->prepare($sql);
+		
+		if ( isset($params['filtros']) ){
+			$this->bindFiltros($sth, $params['filtros']);
+		}
+		
+		
+		
+		$exito = $sth->execute();
+		if ( !$exito ){
+			throw new Exception("Error listando: ".$sql); //TODO: agregar numero de error, crear una exception MiEscepcion
+		}		
+		// $sth = $con->query($sql); // Simple, but has several drawbacks		
+		
+		
 		$tot = $sth->fetchAll(PDO::FETCH_ASSOC);
 		$total = $tot[0]['total'];
 		
@@ -206,28 +283,37 @@ class Modelo implements ICrud{
 		if ( isset($params['limit']) && isset($params['start']) ){
 			$paginar=true;
 		}
+		
+		
+		
+		
 		if ($paginar){
 			$limit=$params['limit'];
 			$start=$params['start'];		
-			$sql = 'SELECT * FROM '.$this->tabla.' limit :start,:limit';
+			$sql = 'SELECT * FROM '.$this->tabla.$filtros.' limit :start,:limit';
 		}else{			
-			$sql = 'SELECT * FROM '.$this->tabla.' ';
+			$sql = 'SELECT * FROM '.$this->tabla.$filtros;
 		}
-		
 		
 		$sth = $con->prepare($sql);
 		if ($paginar){
 			$sth->bindValue(':limit',$limit,PDO::PARAM_INT);
 			$sth->bindValue(':start',$start,PDO::PARAM_INT);
 		}
+				
+		if ( isset($params['filtros']) ){
+			$this->bindFiltros($sth, $params['filtros']);
+		}
 		
 		$exito = $sth->execute();
 
-		$modelos = $sth->fetchAll(PDO::FETCH_ASSOC);				
+		
 		if ( !$exito ){
 			throw new Exception("Error listando: ".$sql); //TODO: agregar numero de error, crear una exception MiEscepcion
 		}
-							
+		
+		$modelos = $sth->fetchAll(PDO::FETCH_ASSOC);				
+		
 		return array(
 			'success'=>true,
 			'total'=>$total,

@@ -1,5 +1,10 @@
 <?php	
 	
+	/** Absolute path to the WordPress directory. */
+	$REDIRECT_URL = $_SERVER['REDIRECT_URL'];
+ 	
+	
+	
 	//  AQUI INICIA EL PROCESO
 	session_start();	
 	ini_set('date.timezone', 'America/Mazatlan');

@@ -102,6 +102,12 @@ class Controlador{
 		}
 		
 		
+		
+
+		if ( isset($_GET['filtering']) ){
+			$params['filtros']=$_GET['filtering'];
+		}
+		
 		$res=$mod->buscar($params);				
 		
 		$respuesta=array(
