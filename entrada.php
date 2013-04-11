@@ -2,7 +2,7 @@
 	
 	/** Absolute path to the WordPress directory. */
 	$REDIRECT_URL = $_SERVER['REDIRECT_URL'];
- 	
+	
 	
 	
 	//  AQUI INICIA EL PROCESO
@@ -46,7 +46,10 @@
 		$_PETICION=new Peticion(); //Analiza el url
 		
 		
-		$MOD_WEB_PATH='/web'.$_PETICION->modulo.'/';			
+		$MOD_WEB_PATH='/web/'.$_PETICION->modulo.'/';			
+		$MOD_WEB_PATH = isset( $APP_CONFIG['host'] )? $APP_CONFIG['host'].$MOD_WEB_PATH : $MOD_WEB_PATH;
+		
+		
 		if ( !file_exists($APPS_PATH.$_PETICION->modulo) ){
 			$APPS_PATH='../modulos/';			
 			$MOD_WEB_PATH='/web/modulos/'.$_PETICION->modulo.'/';			
