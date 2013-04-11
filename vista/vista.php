@@ -40,6 +40,7 @@ class  Vista{
 		global $APPS_PATH;
 		global $APP_CONFIG;
 		global $REDIRECT_URL;
+		global $MOD_WEB_PATH;
 		
 		if ( empty($vista) ){
 			$controlador=$_PETICION->controlador;
@@ -47,6 +48,7 @@ class  Vista{
 			$vista=$controlador.$_PETICION->accion;
 		}
 		$rutaVista=$APPS_PATH.$_PETICION->modulo.'/vistas/'.$vista.'.php';
+		
 		$vista_existe = ( file_exists($rutaVista) ) ? true : false;
 		
 		if ($vista_existe) {
@@ -57,8 +59,9 @@ class  Vista{
 			$msg='accion render ejecutada con éxito';
 		}else{
 			$success=false;
-			$msg='El recurso no ha sido encontrado: '.$_PETICION->modulo.'/'.$_PETICION->controlador.'/'.$_PETICION->accion;
-			//echo $msg;
+			$msg='El recurso no ha sido encontrado: '.$rutaVista;
+			
+			echo $msg; exit;
 			//header("HTTP/1.0 404".$msg);
 		}
 		

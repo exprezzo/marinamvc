@@ -1,8 +1,20 @@
 <?php
-function crear_editorjs($nombreControlador, $nombreModelo){
-	global $_PETICION;
-	$ruta='..//web/'.$_PETICION->modulo.'/js/catalogos/'.$nombreControlador.'/';	
+function crear_editorjs($params){
+	$nombreControlador =$params['controlador'];
+	$nombreModelo=$params['modelo'];
 	
+	$rutaBase=$params['ruta_base'];
+	global $_PETICION;
+	
+	
+	$ruta.=$params['modulo'];
+	
+	
+	 $ruta='../web'.$rutaBase.$params['modulo'].'/js/catalogos/'.$nombreControlador.'/';	
+	
+	if ( !file_exists($ruta)) {						
+		mkdir($ruta,0777,true);
+	}
 	
 	ob_start();
 	include 'edicion.js';	
@@ -14,7 +26,7 @@ function crear_editorjs($nombreControlador, $nombreModelo){
 	
 	$rutaCompleta=$ruta.'edicion.js';	
 	if ( file_exists($rutaCompleta) ){
-		// echo 'El archivo '.$rutaCompleta.' ya existe;<br/> ';
+		 // echo 'El archivo '.$rutaCompleta.' ya existe;<br/> ';
 		return array(
 			'success'=>false,
 			'msg'=>'El archivo '.$rutaCompleta.' ya existe;<br/> '

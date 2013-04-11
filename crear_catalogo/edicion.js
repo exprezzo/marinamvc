@@ -24,6 +24,7 @@
 	this.init=function(params){
 		this.controlador=params.controlador;
 		this.catalogo=params.catalogo;
+		this.configuracion=params;
 		
 		var tabId='#'+params.tab.id;
 		var objId=params.objId;
@@ -84,7 +85,7 @@
 				var id=$(tmp[0]).val();				
 				$.ajax({
 					type: "POST",
-					url: '/'+kore.modulo+'/'+me.controlador.nombre+'/cerrar',
+					url: '/'+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/cerrar',
 					data: { id:id }
 				}).done(function( response ) {
 					
@@ -132,7 +133,7 @@
 		
 		$.ajax({
 			type: "POST",
-			url: '/'+kore.modulo+'/'+this.controlador.nombre+'/guardar',
+			url: '/'+this.configuracion.modulo.nombre+'/'+this.controlador.nombre+'/guardar',
 			data: { datos: datos}
 		}).done(function( response ) {
 			
@@ -153,7 +154,7 @@
 				
 				me.actualizarTitulo();
 				me.editado=false;
-				var objId = '/'+kore.modulo+'/'+me.controlador.nombre+'/editar?id='+resp.datos.id;
+				var objId = '/'+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar?id='+resp.datos.id;
 				objId = objId.toLowerCase();
 				$(me.tabId ).attr('objId',objId);				
 				
@@ -197,7 +198,7 @@
 		var me=this;
 		$.ajax({
 				type: "POST",
-				url: '/'+kore.modulo+'/'+me.controlador.nombre+'/eliminar',
+				url: '/'+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/eliminar',
 				data: { id: id}
 			}).done(function( response ) {		
 				var resp = eval('(' + response + ')');

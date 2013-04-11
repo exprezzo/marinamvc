@@ -1,15 +1,18 @@
 <?php
-function crear_buscador($nombreControlador, $nombreModelo){
+function crear_buscador($params){
+	$nombreControlador =$params['controlador'];
+	$nombreModelo=$params['modelo'];
+	
 	global $_PETICION;
-	$ruta='../'.$_PETICION->modulo.'/vistas/'.$nombreControlador.'/';	
+	$ruta='../'.$params['ruta_base'].$params['modulo'].'/vistas/'.$nombreControlador.'/';	
 	
 	if ( !file_exists($ruta) ){
-		mkdir($ruta, 0700);
+		mkdir($ruta, 0700, true);
 	}
 	
 
 $contenido='
-<script src="/web/<?php echo $_PETICION->modulo; ?>/js/catalogos/<?php echo $_PETICION->controlador; ?>/busqueda.js"></script>
+<script src="<?php echo $MOD_WEB_PATH; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/busqueda.js"></script>
 
 <script>			
 	$( function(){		
@@ -19,6 +22,9 @@ $contenido='
 			},
 			controlador:{
 				nombre:\'<?php echo $_PETICION->controlador; ?>\'
+			},
+			modulo:{
+				nombre:\'<?php echo $_PETICION->modulo; ?>\'
 			},
 			catalogo:{
 				nombre:\''. $nombreModelo.'\'

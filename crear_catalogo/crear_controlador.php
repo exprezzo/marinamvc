@@ -1,7 +1,15 @@
 <?php
-function crear_controlador($nombreControlador, $nombreModelo,$fields){
+function crear_controlador($params){
+	$nombreControlador =$params['controlador'];
+	$nombreModelo=$params['modelo'];
+	$fields=$params['fields'];
+	
 	global $_PETICION;
-	$ruta='../'.$_PETICION->modulo.'/controladores/';	
+	// $ruta='../'.$_PETICION->modulo.'/controladores/';	
+	$ruta='../'.$params['ruta_base'].$params['modulo'].'/controladores/';	
+	if ( !file_exists($ruta) ){
+		mkdir($ruta, 0700, true);
+	}
 	
 	$fieldsStr='array(';
 	for($i=0; $i<sizeof($fields); $i++ ){
@@ -12,7 +20,7 @@ function crear_controlador($nombreControlador, $nombreModelo,$fields){
 	$fieldsStr.=')';
 	
 $contenido='<?php
-require_once \'../\'.$_PETICION->modulo.\'/modelos/'.$nombreModelo.'_modelo.php\';
+require_once $APPS_PATH.$_PETICION->modulo.\'/modelos/'.$nombreModelo.'_modelo.php\';
 class '.$nombreControlador.' extends Controlador{
 	var $modelo="'.$nombreModelo.'";
 	var $campos='.$fieldsStr.';

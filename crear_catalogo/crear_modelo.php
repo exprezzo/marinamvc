@@ -1,7 +1,16 @@
 <?php
-function crear_modelo($nombreModelo, $tabla, $fields){
+function crear_modelo($params){
+	
+	$nombreModelo=$params['modelo'];
+	$fields=$params['fields'];
+	$tabla=$params['tabla'];
+	
 	global $_PETICION;
-	$ruta='../'.$_PETICION->modulo.'/modelos/';	
+	// $ruta='../'.$_PETICION->modulo.'/modelos/';	
+	$ruta='../'.$params['ruta_base'].$params['modulo'].'/modelos/';	
+	if ( !file_exists($ruta) ){
+		mkdir($ruta, 0700, true);
+	}
 	
 	$fieldsStr='array(';
 	for($i=0; $i<sizeof($fields); $i++ ){
@@ -35,7 +44,7 @@ class '.$nombreModelo.'Modelo extends Modelo{
 ?>';
 	
 	
-	$rutaCompleta=$ruta.$nombreModelo.'_modelo.php';
+	$rutaCompleta=strtolower( $ruta.$nombreModelo.'_modelo.php' );
 	
 	if ( file_exists($rutaCompleta) ){
 		// echo 'El archivo '.$rutaCompleta.' ya existe;<br/> ';

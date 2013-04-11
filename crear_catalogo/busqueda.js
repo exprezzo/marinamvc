@@ -6,7 +6,7 @@
 	var me=this;
 	$.ajax({
 			type: "POST",
-			url: '/'+kore.modulo+'/'+this.controlador.nombre+'/eliminar',
+			url: '/'+this.configuracion.modulo.nombre+'/'+this.controlador.nombre+'/eliminar',
 			data: { id: id}
 		}).done(function( response ) {		
 			var resp = eval('(' + response + ')');
@@ -34,7 +34,7 @@
 		});
 }
 	this.nuevo=function(){		
-		TabManager.add('/'+kore.modulo+'/'+this.controlador.nombre+'/nuevo',this.tituloNuevo);
+		TabManager.add('/'+this.configuracion.modulo.nombre+'/'+this.controlador.nombre+'/nuevo',this.tituloNuevo);
 	};
 	this.activate=function(){
 		// vuelve a renderear estos elementos que presentaban problemas. (correccion de bug)		
@@ -60,6 +60,7 @@
 		//-------------------------------------------Al nucleo		*/		
 		this.controlador=config.controlador;
 		this.catalogo=config.catalogo;
+		this.configuracion=config;
 		//-------------------------------------------
 		var tab=config.tab;		
 		tabId = '#' + tab.id;
@@ -89,7 +90,7 @@
 					break;
 					case 'editar':
 						if (me.selected!=undefined){													
-							TabManager.add('/'+kore.modulo+'/'+me.controlador.nombre+'/editar','Editar '+me.catalogo.nombre,me.selected.id);
+							TabManager.add('/'+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar','Editar '+me.catalogo.nombre,me.selected.id);
 						}
 					break;
 					case 'eliminar':
@@ -134,7 +135,7 @@
 			
 		var dataSource = new wijdatasource({
 			proxy: new wijhttpproxy({
-				url: '/'+kore.modulo+'/'+this.controlador.nombre+'/buscar',
+				url: '/'+this.configuracion.modulo.nombre+'/'+this.controlador.nombre+'/buscar',
 				dataType: "json"
 			}),
 			dynamic:true,
@@ -176,7 +177,7 @@
 		gridBusqueda.wijgrid({ loaded: function (e) { 
 			$(me.tabId + ' .grid_busqueda tr').bind('dblclick', function (e) { 							
 				var pedidoId=me.selected.id;
-				TabManager.add('/'+kore.modulo+'/'+me.controlador.nombre+'/editar','Editar '+me.catalogo.nombre,pedidoId);				
+				TabManager.add('/'+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar','Editar '+me.catalogo.nombre,pedidoId);				
 			});			
 		} });
 	};

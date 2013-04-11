@@ -1,7 +1,17 @@
 <?php
-function crear_editor($nombreControlador, $nombreModelo,$campos){
+function crear_editor($params){
+	
+	$nombreModelo=$params['modelo'];
+	$nombreControlador=$params['controlador'];
+	$campos=$params['fields'];
+	
 	global $_PETICION;
-	$ruta='../'.$_PETICION->modulo.'/vistas/'.$nombreControlador.'/';	
+	// $ruta='../'.$_PETICION->modulo.'/vistas/'.$nombreControlador.'/';	
+	$ruta='../'.$params['ruta_base'].$params['modulo'].'/vistas/'.$nombreControlador.'/';	
+	if ( !file_exists($ruta) ){
+		mkdir($ruta, 0700, true);
+	}
+	
 	$divs='';
 	for($i=0; $i<sizeof($campos); $i++ ){
 		if ($campos[$i]=='id') continue;
@@ -13,7 +23,7 @@ function crear_editor($nombreControlador, $nombreModelo,$campos){
 		</div>';
 	}
 $contenido='
-<script src="/web/<?php echo $_PETICION->modulo; ?>/js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
+<script src="<?php echo $MOD_WEB_PATH; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
 
 <script>			
 	$( function(){		
@@ -23,6 +33,9 @@ $contenido='
 			},
 			controlador:{
 				nombre:\'<?php echo $_PETICION->controlador; ?>\'
+			},
+			modulo:{
+				nombre:\'<?php echo $_PETICION->modulo; ?>\'
 			},
 			catalogo:{
 				nombre:\''. $nombreModelo.'\'

@@ -44,20 +44,31 @@
 	
 	try{		
 		$_PETICION=new Peticion(); //Analiza el url
-	//	print_r($_PETICION); 
+		
+		
+		$MOD_WEB_PATH='/web'.$_PETICION->modulo.'/';			
+		if ( !file_exists($APPS_PATH.$_PETICION->modulo) ){
+			$APPS_PATH='../modulos/';			
+			$MOD_WEB_PATH='/web/modulos/'.$_PETICION->modulo.'/';			
+		}
+		
 		$configPath=$APPS_PATH.$_PETICION->modulo.'/config.php';
 		if ( !file_exists($configPath) ){
 			// echo $configPath;exit;
-			header("HTTP/1.0 404 Not Found".'El recurso no existe');
-			exit;
+			// header("HTTP/1.0 404 Not Found".' El recurso no existe '.$configPath);
+			// exit;
+		}else{
+			require_once $APPS_PATH.$_PETICION->modulo.'/config.php';	
 		}
-		require_once $APPS_PATH.$_PETICION->modulo.'/config.php';	
+		
 		
 		// $APPS_PATH='../'.$APPS_PATH.'apps/';
 		// require_once $APPS_PATH.$_PETICION->modulo.'/config.php';	
 		
+		
 		if ( !empty($_PETICION->modulo) ){
 			$rutaControlador=$APPS_PATH.$_PETICION->modulo.'/controladores/'.$_PETICION->controlador.'.php';
+			// echo $rutaControlador;
 			$_PETICION->basePath=$APPS_PATH.$_PETICION->modulo.'/';
 		}
 				
@@ -68,7 +79,7 @@
 				'success'=>false,
 				'msg'	 =>'El controlador '.$_PETICION->controlador.' no existe',
 			);				
-			header("HTTP/1.0 404 Not Found".'El controlador '.$_PETICION->controlador.' no existe');
+			header("HTTP/1.0 404 Not Found".'El controlador '.$_PETICION->controlador.' no existe'.$rutaControlador);
 		}
 				
 		$despachador->despacharPeticion($_PETICION);

@@ -1,11 +1,17 @@
 <?php
-function crear_buscadorjs($nombreControlador, $nombreModelo){
-	global $_PETICION;
-	$ruta='..//web/'.$_PETICION->modulo.'/js/catalogos/'.$nombreControlador.'/';	
+function crear_buscadorjs($params){
 	
+	$nombreModelo=$params['modelo'];
+	$nombreControlador=$params['controlador'];
+	
+	
+	global $_PETICION;
+	// $ruta='..//web/'.$_PETICION->modulo.'/js/catalogos/'.$nombreControlador.'/';	
+	$ruta='../web'.$params['ruta_base'].$params['modulo'].'/js/catalogos/'.$nombreControlador.'/';	
 	if ( !file_exists($ruta) ){
-		mkdir($ruta, 0700);
+		mkdir($ruta, 0700, true);
 	}
+	
 	ob_start();
 	include 'busqueda.js';	
 	

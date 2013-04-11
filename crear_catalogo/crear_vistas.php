@@ -1,5 +1,10 @@
 <?php
-function crear_vistas($nombreControlador, $nombreModelo){
+function crear_vistas($params){
+	
+	$nombreModelo=$params['modelo'];
+	$nombreControlador=$params['controlador'];
+	
+	
 	global $_PETICION;
 	$ruta='../'.$_PETICION->modulo.'/vistas/'.$nombreControlador.'/';	
 	
