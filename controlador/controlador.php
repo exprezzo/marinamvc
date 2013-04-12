@@ -3,11 +3,7 @@ require $CORE_PATH.'modelo/Modelo.php';
 class Controlador{
 	var $modelo='Modelo';
 	var $campos=array('id');
-	function servir(){
-		//existe la funcion, la ejecuta,
-		
-		// checknivel( $_PETICION->controlador );
-		
+	function servir(){		
 		global $_PETICION;
 		$accion = $_PETICION->accion;
 		if (method_exists($this, $accion )){

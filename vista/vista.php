@@ -35,6 +35,15 @@ class  Vista{
 		);
 	}
 	
+	
+	function cargarVista($peticion){
+		$modulo=$peticion->modulo;
+		//busca al modulo en raiz, si no lo encuentra, lo busca en la carpeta modulos/
+		// if (fi)
+		//si no lo encuentra, aqui termina el asunto con un mensaje de error
+		//busca el archivo iniciando en la raiz del modulo /vistas/$controlador/$accion.php
+		
+	}
 	function mostrar($vista=''){
 		global $_PETICION;
 		global $APPS_PATH;
@@ -46,6 +55,8 @@ class  Vista{
 			$controlador=$_PETICION->controlador;
 			$controlador.= !empty($_PETICION->controlador)?  '/' : '';
 			$vista=$controlador.$_PETICION->accion;
+			
+			$modulo=$_PETICION->modulo;
 		}
 		$rutaVista=$APPS_PATH.$_PETICION->modulo.'/vistas/'.$vista.'.php';
 		

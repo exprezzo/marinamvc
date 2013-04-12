@@ -1,30 +1,28 @@
 <?php
 class Peticion{
-	function Peticion(){
+	function Peticion($url){
 		// Ruta relativa    http://localhost/lego_mvc/controlador/vista?foo=bar
 		//  [PATH_INFO] => /controlador/vista
 		
 		// Ruta Absoluta    http://lego/controlador/vista?foo=bar 
 		//  [PATH_INFO] => /controlador/vista		
 		
-		//-------------------------------------------------------------------------------
-		$arrAppPath = explode('/',$_SERVER['SCRIPT_NAME']) ;		
-		//no nos interesa el primero ni los ultimos dos
-		$app_path='/';		
-		
-		$arrCount=sizeof($arrAppPath);
-		for( $i=1;  $i<$arrCount-2; $i++ ){		
-			$app_path.=''.$arrAppPath[$i].'/';			
-		}
-		
-		//if (!defined('APP_PATH') ) define('APP_PATH',$app_path); //¿Donde se usa?
-		//-------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------
+		// para cargar los archivos css y otros recursos, usamos esta ruta como base 
+		// $arrAppPath = explode('/',$_SERVER['SCRIPT_NAME']) ;				
+		// $app_path='/';				
+		// $arrCount=sizeof($arrAppPath);
+		// for( $i=1;  $i<$arrCount-2; $i++ ){		//no nos interesa el primero ni los ultimos dos
+			// $app_path.=''.$arrAppPath[$i].'/';			
+		// }				
+		// -------------------------------------------------------------------------------
 		//echo '<pre>'; print_r($_SERVER); echo '<pre>';
 		if ( isset($_SERVER['ORIG_PATH_INFO']) ){
 			$_SERVER['PATH_INFO'] = $_SERVER['ORIG_PATH_INFO'];
 		}
 		//if ( !isset($_SERVER['PATH_INFO']) ) $_SERVER['PATH_INFO'] = "/home";
-		$url=$_SERVER['PATH_INFO'];		
+		$url=$_SERVER['PATH_INFO'];	
+// echo 		$url; exit;
 		$xp = explode ( '/', $url);		
 		$size=sizeof($xp);
 		$modulo='';
