@@ -28,7 +28,8 @@ $contenido='
 			},
 			catalogo:{
 				nombre:\''. $nombreModelo.'\'
-			}
+			},			
+			pk:"'.$params['pk_tabla'].'"
 			
 		};				
 		 var lista=new Busqueda'. $nombreControlador.'();
@@ -37,7 +38,7 @@ $contenido='
 </script>
 <?php 	
 	global $_PETICION;
-	$this->mostrar(\'/componentes/busqueda_toolbar\');
+	$this->mostrar(\'/backend/componentes/busqueda_toolbar\');
 ?>
 <div >	
 	<table class="grid_busqueda">

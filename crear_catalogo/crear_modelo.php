@@ -24,6 +24,7 @@ $contenido='<?php
 class '.$nombreModelo.'Modelo extends Modelo{
 	var $tabla="'.$tabla.'";
 	var $campos='.$fieldsStr.';
+	var $pk="'.$params['pk_tabla'].'";
 	
 	function nuevo($params){
 		return parent::nuevo($params);

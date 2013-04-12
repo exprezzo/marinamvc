@@ -37,9 +37,56 @@ class  Vista{
 	
 	
 	function cargarVista($peticion){
+		global $_PETICION;
+		global $APPS_PATH;
+		global $APP_CONFIG;
+		global $REDIRECT_URL;
+		global $MOD_WEB_PATH;
+		global $WEB_BASE;
+		global $APP_URL_BASE;
+		
 		$modulo=$peticion->modulo;
+		
 		//busca al modulo en raiz, si no lo encuentra, lo busca en la carpeta modulos/
-		// if (fi)
+		
+		$ruta_base='../'.$modulo;
+		
+		if ( !file_exists($ruta_base) ){
+			$ruta_base='../modulos/'.$modulo;
+			if ( !file_exists($ruta_base) ){
+				return array(
+					'success'=>false,
+					'msg'=>'El modulo "'.$modulo.'" no fue encontrado en el sistema'
+				);
+			}else{
+				
+			}
+			
+		}
+		
+		
+		$rutaVista=$ruta_base.'/vistas/'.$peticion->controlador.'/'.$peticion->accion.'.php';
+		
+		$vista_existe = ( file_exists($rutaVista) ) ? true : false;
+		
+		if ($vista_existe) {
+			//$this->antesdeMostrar($vista);
+			require_once($rutaVista);
+			//$this->despuesdeMostrar($vista);
+			$success=true;
+			$msg='accion render ejecutada con éxito';
+		}else{
+			$success=false;
+			$msg='El recurso no ha sido encontrado: '.$rutaVista;
+			
+			// echo $msg; exit;
+			//header("HTTP/1.0 404".$msg);
+		}
+		
+		return array(
+			'success'=>$success,
+			'msg'=>$msg
+		);
 		//si no lo encuentra, aqui termina el asunto con un mensaje de error
 		//busca el archivo iniciando en la raiz del modulo /vistas/$controlador/$accion.php
 		
@@ -55,33 +102,17 @@ class  Vista{
 		
 		if ( empty($vista) ){
 			$controlador=$_PETICION->controlador;
-			$controlador.= !empty($_PETICION->controlador)?  '/' : '';
-			$vista=$controlador.$_PETICION->accion;
-			
-			$modulo=$_PETICION->modulo;
-		}
-		$rutaVista=$APPS_PATH.$_PETICION->modulo.'/vistas/'.$vista.'.php';
-		
-		$vista_existe = ( file_exists($rutaVista) ) ? true : false;
-		
-		if ($vista_existe) {
-			//$this->antesdeMostrar($vista);
-			require_once($rutaVista);
-			//$this->despuesdeMostrar($vista);
-			$success=true;
-			$msg='accion render ejecutada con éxito';
+			$accion=$_PETICION->accion;			
+			$modulo=$_PETICION->modulo;			
+			$peticionVista = new $_PETICION("/$modulo/$controlador/$accion");
 		}else{
-			$success=false;
-			$msg='El recurso no ha sido encontrado: '.$rutaVista;
-			
-			echo $msg; exit;
-			//header("HTTP/1.0 404".$msg);
+			$peticionVista = new $_PETICION($vista,$_PETICION);
 		}
+		return $this->cargarVista($peticionVista);
 		
-		return array(
-			'success'=>$success,
-			'msg'=>$msg
-		);
+		
+		
+		
 	}
 			
 	

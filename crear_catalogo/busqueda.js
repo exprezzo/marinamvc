@@ -2,12 +2,17 @@
 	this.tituloNuevo='Nueva';
 	this.eliminar=function(){
 	
-	var id = this.selected.id;
 	var me=this;
+	
+	var id = this.selected[this.configuracion.pk];
+	var me=this;	
+	var params={};
+	params[this.configuracion.pk]=id;
+	
 	$.ajax({
 			type: "POST",
 			url: '/'+this.configuracion.modulo.nombre+'/'+this.controlador.nombre+'/eliminar',
-			data: { id: id}
+			data: params
 		}).done(function( response ) {		
 			var resp = eval('(' + response + ')');
 			var msg= (resp.msg)? resp.msg : '';
@@ -90,7 +95,8 @@
 					break;
 					case 'editar':
 						if (me.selected!=undefined){													
-							TabManager.add('/'+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar','Editar '+me.catalogo.nombre,me.selected.id);
+							var id=me.selected[me.configuracion.pk];							
+							TabManager.add('/'+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar','Editar '+me.catalogo.nombre,id);
 						}
 					break;
 					case 'eliminar':
@@ -176,7 +182,7 @@
 		
 		gridBusqueda.wijgrid({ loaded: function (e) { 
 			$(me.tabId + ' .grid_busqueda tr').bind('dblclick', function (e) { 							
-				var pedidoId=me.selected.id;
+				var pedidoId=me.selected[me.configuracion.pk];
 				TabManager.add('/'+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar','Editar '+me.catalogo.nombre,pedidoId);				
 			});			
 		} });

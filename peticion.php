@@ -1,6 +1,6 @@
 <?php
 class Peticion{
-	function Peticion( $url ){
+	function Peticion( $url, $peticiond = null ) {
 		// Ruta relativa    http://localhost/lego_mvc/controlador/vista?foo=bar
 		//  [PATH_INFO] => /controlador/vista
 		
@@ -29,19 +29,19 @@ class Peticion{
 		switch($size){
 			case 1:		//  raiz (modulo y controlador y accion por default)
 				@include '../config.php';
-				$modulo		=$_DEFAULT_APP;
-				$controlador=$_DEFAULT_CONTROLLER;
+				$modulo		= isset($peticiond )? $peticiond->modulo :  $_DEFAULT_APP;
+				$controlador=isset($peticiond )? $peticiond->controlador : $_DEFAULT_CONTROLLER;
 				$accion=$_DEFAULT_ACTION;
 			break;
 			case 2:	// solo escribió un parametro, la accion (modulo y controlador default)
 				@include '../config.php';
-				$modulo		=$_DEFAULT_APP;
-				$controlador=$_DEFAULT_CONTROLLER;
+				$modulo		=isset($peticiond )? $peticiond->modulo : $_DEFAULT_APP;
+				$controlador=isset($peticiond )? $peticiond->controlador : $_DEFAULT_CONTROLLER;
 				$accion		=$xp[1];
 			break;			
 			case 3:	// escribió el controlador y la accion, (modulo default)
 				@include '../config.php';
-				$modulo		=$_DEFAULT_APP;
+				$modulo		=isset($peticiond )? $peticiond->modulo : $_DEFAULT_APP;
 				$controlador=$xp[1];
 				
 				$accion		=$xp[2];

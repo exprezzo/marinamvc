@@ -3,6 +3,7 @@ require $CORE_PATH.'modelo/Modelo.php';
 class Controlador{
 	var $modelo='Modelo';
 	var $campos=array('id');
+	var $pk='id';
 	function servir(){		
 		global $_PETICION;
 		$accion = $_PETICION->accion;
@@ -72,7 +73,7 @@ class Controlador{
 		$id=empty( $_REQUEST['id'])? 0 : $_REQUEST['id'];
 		$model=$this->getModel();
 		$params=array(
-			'id'=>$id
+			$this->pk=>$id
 		);		
 		$obj=$model->obtener( $params );		
 		$vista=$this->getVista();				
@@ -157,12 +158,12 @@ class Controlador{
 		$modObj= $this->getModel();
 		$params=array();
 		
-		if ( !isset($_POST['id']) ){
+		if ( !isset($_POST[$this->pk]) ){
 			$id=$_POST['datos'];
 		}else{
-			$id=$_POST['id'];
+			$id=$_POST[$this->pk];
 		}
-		$params['id']=$id;
+		$params[$this->pk]=$id;
 		
 		$res=$modObj->borrar($params);
 		

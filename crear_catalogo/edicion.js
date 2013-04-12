@@ -149,7 +149,7 @@
 				}
 				
 				title= 'Success';
-				tab.find('.txtId').val(resp.datos.id);
+				tab.find('[name="'+me.configuracion.pk+'"]').val(resp.datos[me.configuracion.pk]);
 				
 				
 				me.actualizarTitulo();
@@ -194,12 +194,17 @@
 		});
 	};	
 	this.eliminar=function(){
-		var id = $('.txtId').val();
+		var id = $('[name="'+this.configuracion.pk+'"]').val();
 		var me=this;
+		
+		var params={};
+		params[this.configuracion.pk]=id;
+		
+		
 		$.ajax({
 				type: "POST",
 				url: '/'+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/eliminar',
-				data: { id: id}
+				data: params
 			}).done(function( response ) {		
 				var resp = eval('(' + response + ')');
 				var msg= (resp.msg)? resp.msg : '';

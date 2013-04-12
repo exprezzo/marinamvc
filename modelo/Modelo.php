@@ -60,7 +60,7 @@ class Modelo implements ICrud{
 		$filtros=' WHERE '.$filtros;
 		}
 				
-		$sql = 'SELECT COUNT(id ) as total FROM '.$this->tabla.$filtros;		
+		$sql = 'SELECT COUNT('.$this->pk.' ) as total FROM '.$this->tabla.$filtros;		
 		
 		
 		$pdo = $this->getConexion();
@@ -82,7 +82,7 @@ class Modelo implements ICrud{
 	
 	function obtener($params){
 		
-		$id=$params['id'];			
+		$id=$params[$this->pk];			
 		$sql = 'SELECT * FROM '.$this->tabla.' WHERE '.$this->pk.'=:id';				
 		$con = $this->getConexion();
 		$sth = $con->prepare($sql);		
@@ -93,7 +93,7 @@ class Modelo implements ICrud{
 		if ( empty($modelos) ){
 			//throw new Exception(); //TODO: agregar numero de error, crear una exception MiEscepcion
 			
-			return array('success'=>false,'error'=>'no encontrado','msg'=>'no encontrado id:'.$id);
+			return array('success'=>false,'error'=>'no encontrado','msg'=>'no encontrado '.$this->pk.':'.$id);
 		}
 		
 		if ( sizeof($modelos) > 1 ){
@@ -106,7 +106,7 @@ class Modelo implements ICrud{
 	function guardar( $params ){
 		$dbh=$this->getConexion();
 		
-		$id=$params['id'];
+		$id=$params[$this->pk];
 		// $nombre=$params['nombre'];
 		
 		if ( empty($id) ){
@@ -128,8 +128,7 @@ class Modelo implements ICrud{
 			$msg=$this->nombre.' Creado';	
 		}else{
 			//	         ACTUALIZAR
-			// $sql='UPDATE '.$this->tabla.' SET nombre=:nombre WHERE id=:id, fecha_de_actualizacion=now()';
-			// $sql='UPDATE '.$this->tabla.' SET nombre=:nombre WHERE id=:id';
+			
 			$sql='UPDATE '.$this->tabla.' SET ';
 			foreach($params as $key=>$val){
 				if ($key==$this->pk ) continue;
@@ -176,11 +175,11 @@ class Modelo implements ICrud{
 		return $this->borrar($params);
 	}
 	function borrar( $params ){
-		if ( empty($params['id']) ){
-			throw new Exeption("Es necesario el parámetro 'id'");
+		if ( empty($params[$this->pk]) ){
+			throw new Exception("Es necesario el parámetro '".$this->pk."'");
 		};		
-		$id=$params['id'];
-		$sql = 'DELETE FROM '.$this->tabla.' WHERE id=:id';		
+		$id=$params[$this->pk];
+		$sql = 'DELETE FROM '.$this->tabla.' WHERE '.$this->pk.'=:id';		
 		$con = $this->getConexion();
 		$sth = $con->prepare($sql);		
 		$sth->bindValue(':id',$id,PDO::PARAM_INT);
@@ -271,6 +270,7 @@ class Modelo implements ICrud{
 		
 		$exito = $sth->execute();
 		if ( !$exito ){
+			return $this->getError( $sth );
 			throw new Exception("Error listando: ".$sql); //TODO: agregar numero de error, crear una exception MiEscepcion
 		}		
 		// $sth = $con->query($sql); // Simple, but has several drawbacks		
@@ -309,7 +309,9 @@ class Modelo implements ICrud{
 
 		
 		if ( !$exito ){
-			throw new Exception("Error listando: ".$sql); //TODO: agregar numero de error, crear una exception MiEscepcion
+		
+			return $this->getError( $sth );
+			// throw new Exception("Error listando: ".$sql); //TODO: agregar numero de error, crear una exception MiEscepcion
 		}
 		
 		$modelos = $sth->fetchAll(PDO::FETCH_ASSOC);				

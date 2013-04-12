@@ -14,7 +14,6 @@ function crear_editor($params){
 	
 	$divs='';
 	for($i=0; $i<sizeof($campos); $i++ ){
-		if ($campos[$i]=='id') continue;
 		
 		$divs.=
 		'<div class="inputBox" style="margin-bottom:8px;display:block;margin-left:10px;width:100%;" autoFocus >
@@ -39,7 +38,8 @@ $contenido='
 			},
 			catalogo:{
 				nombre:\''. $nombreModelo.'\'
-			}
+			},			
+			pk:"'.$params['pk_tabla'].'"
 			
 		};				
 		 var editor=new Edicion'. $nombreControlador.'();
@@ -50,14 +50,13 @@ $contenido='
 	<div class="pnlIzq">
 		<?php 	
 			global $_PETICION;
-			$this->mostrar(\'/componentes/toolbar\');	
+			$this->mostrar(\'/backend/componentes/toolbar\');	
 			if (!isset($this->datos)){		
 				$this->datos=array();		
 			}
 		?>
 		
-		<form class="frmEdicion" style="padding-top:10px;">	
-			<input type="hidden" name="id" class="txtId" value="<?php echo $this->datos[\'id\']; ?>" />	
+		<form class="frmEdicion" style="padding-top:10px;">				
 			'.$divs.'
 		</form>
 	</div>
