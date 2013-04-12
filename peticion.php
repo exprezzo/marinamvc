@@ -1,6 +1,6 @@
 <?php
 class Peticion{
-	function Peticion(){
+	function Peticion( $url ){
 		// Ruta relativa    http://localhost/lego_mvc/controlador/vista?foo=bar
 		//  [PATH_INFO] => /controlador/vista
 		
@@ -17,32 +17,29 @@ class Peticion{
 			$app_path.=''.$arrAppPath[$i].'/';			
 		}
 		
-		//if (!defined('APP_PATH') ) define('APP_PATH',$app_path); //¿Donde se usa?
+		global $APP_CONFIG;		
+		$APP_CONFIG['url_base_path']=$app_path;				
 		//-------------------------------------------------------------------------------
-		//echo '<pre>'; print_r($_SERVER); echo '<pre>';
-		if ( isset($_SERVER['ORIG_PATH_INFO']) ){
-			$_SERVER['PATH_INFO'] = $_SERVER['ORIG_PATH_INFO'];
-		}
-		//if ( !isset($_SERVER['PATH_INFO']) ) $_SERVER['PATH_INFO'] = "/home";
-		$url=$_SERVER['PATH_INFO'];		
-		$xp = explode ( '/', $url);		
+
+		
+		$xp = explode( '/', $url);
 		$size=sizeof($xp);
 		$modulo='';
 		global $_DEFAULT_APP,$_DEFAULT_CONTROLLER,$_DEFAULT_ACTION;
 		switch($size){
-			case 1:		//no Escribio nada
-				@include '../config.php';					
+			case 1:		//  raiz (modulo y controlador y accion por default)
+				@include '../config.php';
 				$modulo		=$_DEFAULT_APP;
 				$controlador=$_DEFAULT_CONTROLLER;
-				$accion=$_DEFAULT_ACTION;				
+				$accion=$_DEFAULT_ACTION;
 			break;
-			case 2:	// solo escribió un parametro  ( la accion )
-				@include '../config.php';					
+			case 2:	// solo escribió un parametro, la accion (modulo y controlador default)
+				@include '../config.php';
 				$modulo		=$_DEFAULT_APP;
 				$controlador=$_DEFAULT_CONTROLLER;
 				$accion		=$xp[1];
 			break;			
-			case 3:	// escribió el controlador y la accion
+			case 3:	// escribió el controlador y la accion, (modulo default)
 				@include '../config.php';
 				$modulo		=$_DEFAULT_APP;
 				$controlador=$xp[1];

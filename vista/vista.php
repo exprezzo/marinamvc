@@ -41,6 +41,8 @@ class  Vista{
 		global $APP_CONFIG;
 		global $REDIRECT_URL;
 		global $MOD_WEB_PATH;
+		global $WEB_BASE;
+		global $APP_URL_BASE;
 		
 		if ( empty($vista) ){
 			$controlador=$_PETICION->controlador;
