@@ -36,7 +36,7 @@ class  Vista{
 	}
 	
 	
-	function cargarVista($peticion){
+	function cargarVista($peticion, $buscarEnRaiz){
 		global $_PETICION;
 		global $APPS_PATH;
 		global $APP_CONFIG;
@@ -64,8 +64,13 @@ class  Vista{
 			
 		}
 		
+		// print_r($peticion); 
 		
-		$rutaVista=$ruta_base.'/vistas/'.$peticion->controlador.'/'.$peticion->accion.'.php';
+		if ($buscarEnRaiz){	
+			$rutaVista=$ruta_base.'/vistas/'.$peticion->accion.'.php';						
+		}else{
+			$rutaVista=$ruta_base.'/vistas/'.$peticion->controlador.'/'.$peticion->accion.'.php';						
+		}			
 		
 		$vista_existe = ( file_exists($rutaVista) ) ? true : false;
 		
@@ -91,7 +96,7 @@ class  Vista{
 		//busca el archivo iniciando en la raiz del modulo /vistas/$controlador/$accion.php
 		
 	}
-	function mostrar($vista=''){
+	function mostrar($vista='', $buscarEnRaiz=false){
 		global $_PETICION;
 		global $APPS_PATH;
 		global $APP_CONFIG;
@@ -108,7 +113,9 @@ class  Vista{
 		}else{
 			$peticionVista = new $_PETICION($vista,$_PETICION);
 		}
-		return $this->cargarVista($peticionVista);
+		// echo $vista;
+		// print_r($peticionVista);
+		return $this->cargarVista($peticionVista, $buscarEnRaiz);
 		
 		
 		
