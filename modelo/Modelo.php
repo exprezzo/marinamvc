@@ -6,9 +6,16 @@ class Modelo implements ICrud{
 	var $pk='id';
 	var $nombre='';
 
-	function getError($sth){
+	function getError($sth = null){	
 		$resp=array();
-		$error=$sth->errorInfo();
+		
+		if ($sth == null) {
+			$pdo=$this->getPdo();
+			$error=$pdo->errorInfo();
+		}else{
+			$error=$sth->errorInfo();
+		}
+		
 		
 		$resp['success']=false;			
 		$resp['msg']=$error[2];
@@ -198,8 +205,7 @@ class Modelo implements ICrud{
 	function cadenaDeFiltros($filtros){
 		$cadena=' WHERE ';
 		foreach($filtros as $filtro){
-			$field=empty($filtro['field'])? $filtro['dataKey'] : $filtro['field'];
-		
+			$field=empty($filtro['field'])? $filtro['dataKey'] : $filtro['field'];		
 			switch( strtolower( $filtro['filterOperator'] ) ){
 				case 'equals':				
 				case 'contains':				
@@ -218,14 +224,10 @@ class Modelo implements ICrud{
 				break;
 				case 'lessorequal':
 					$cadena.=' '.$field.' <= :'.$filtro['dataKey'].' and ';
-				break;
-				
-				
+				break;				
 			}
-		}
-		
-		$cadena = substr($cadena, 0,-4);
-		
+		}		
+		$cadena = substr($cadena, 0,-4);		
 		return $cadena;
 	}
 	
