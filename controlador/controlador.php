@@ -37,21 +37,6 @@ class Controlador{
 		return $this->vistaObj;
 	}
 	
-	// function mostrarErrores($errores){
-		// $vista		= $this->getVista();
-		// $vista->errores	= $errores;
-		// return $this->mostrarVista();
-	// }			
-	
-	// function mostrarError($errores){
-		// return $this->mostrarErrores($errores);		
-	// }				
-	
-	// function nuevo(){
-		// $vista=$this->getVista();	
-		// global $_PETICION;
-		// return $vista->mostrar('/'.$_PETICION->controlador.'/edicion');
-	// }
 	
 	function nuevo(){		
 		$campos=$this->campos;
@@ -75,7 +60,8 @@ class Controlador{
 		$params=array(
 			$this->pk=>$id
 		);		
-		$obj=$model->obtener( $params );		
+		$obj=$model->obtener( $params );	
+
 		$vista=$this->getVista();				
 		$vista->datos=$obj;		
 		

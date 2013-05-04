@@ -81,9 +81,12 @@ class Modelo implements ICrud{
 	
 	
 	function obtener($params){
+		// print_r($params); exit;
 		
 		$id=$params[$this->pk];			
 		$sql = 'SELECT * FROM '.$this->tabla.' WHERE '.$this->pk.'=:id';				
+		
+		// echo $sql; exit;
 		$con = $this->getConexion();
 		$sth = $con->prepare($sql);		
 		$sth->bindValue(':id',$id);		
@@ -203,22 +206,22 @@ class Modelo implements ICrud{
 				case 'contains':				
 				case 'beginswith':					
 				case 'endswith':
-					$cadena.=' '.$filtro['dataKey'].' LIKE :'.$filtro['dataKey'].', ';
+					$cadena.=' '.$filtro['dataKey'].' LIKE :'.$filtro['dataKey'].' AND ';
 				break;
 				case 'greater':				
-					$cadena.=' '.$filtro['dataKey'].' > :'.$filtro['dataKey'].', ';
+					$cadena.=' '.$filtro['dataKey'].' > :'.$filtro['dataKey'].' AND ';
 				break;
 				case 'greaterorequal':
-					$cadena.=' '.$filtro['dataKey'].' >= :'.$filtro['dataKey'].', ';
+					$cadena.=' '.$filtro['dataKey'].' >= :'.$filtro['dataKey'].' AND ';
 				break;
 				case 'isempty':
-					$cadena.=' '.$filtro['dataKey'].' = "", ';
+					$cadena.=' '.$filtro['dataKey'].' = "" AND ';
 				break;
 			}
 		}
 		
-		$cadena = substr($cadena, 0,-2);
-		
+		$cadena = substr($cadena, 0,-4);
+		// echo $cadena ; exit;
 		return $cadena;
 	}
 	
@@ -259,6 +262,11 @@ class Modelo implements ICrud{
 		if ( isset($params['filtros']) )
 			$filtros=$this->cadenaDeFiltros($params['filtros']);
 			
+			// echo '<pre>';
+		// print_r($params['filtros']);
+		// echo $filtros; 
+		// echo '</pre>';
+		// exit;
 		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla.$filtros;				
 		$sth = $con->prepare($sql);
 		
