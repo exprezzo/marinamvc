@@ -12,6 +12,7 @@ class  Vista{
 	function cargarDesdeRuta($ruta){
 		global $_PETICION;
 		global $APPS_PATH;
+		global $_APP_PATH;
 		global $APP_CONFIG;
 		global $REDIRECT_URL;
 		$vista_existe = ( file_exists($ruta) ) ? true : false;
@@ -44,6 +45,8 @@ class  Vista{
 		global $MOD_WEB_PATH;
 		global $WEB_BASE;
 		global $APP_URL_BASE;
+		global $APP_PATH;
+		global $_APP_PATH;
 		
 		$modulo=$peticion->modulo;
 		

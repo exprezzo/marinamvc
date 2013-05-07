@@ -9,7 +9,7 @@ class UserController extends Controlador{
 		$model=$this->getModel();
 		$model->logout();
 		// ob_end_clean();
-		header ('Location: /');
+		header ('Location: '.$APP_PATH);			
 	}
 	
 	

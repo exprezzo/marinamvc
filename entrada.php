@@ -38,13 +38,16 @@
 	$arrCount=sizeof($arrAppPath);
 	for( $i=1;  $i<$arrCount-2; $i++ ){		//no nos interesa el primero ni los ultimos dos
 		$app_path.=''.$arrAppPath[$i].'/';			
-	}		
+	}	
+
+	$_APP_PATH = $app_path;
+	$APP_PATH = $app_path;
 	$APP_CONFIG['WEB_BASE']=$app_path.'web/';
 	
 	$APP_URL_BASE=$app_path;
 	
-
-	$_LOGIN_REDIRECT_PATH= (!isset($_LOGIN_REDIRECT_PATH) )?   $APP_URL_BASE.$_DEFAULT_APP.'/'.$_DEFAULT_CONTROLLER.'/'.$_DEFAULT_ACTION :$APP_URL_BASE.$_LOGIN_REDIRECT_PATH;
+	
+	
 	
 	$APP_CONFIG['MOD_WEB_BASE']=$app_path.'web/';
 	
@@ -61,6 +64,8 @@
 		}		
 		$_PETICION=new Peticion( $_SERVER['PATH_INFO'] ); //Analiza el url
 
+		
+		$_LOGIN_REDIRECT_PATH= (!isset($_LOGIN_REDIRECT_PATH) )?   $APP_URL_BASE.$_PETICION->modulo.'/'.$_DEFAULT_CONTROLLER.'/'.$_DEFAULT_ACTION :$APP_URL_BASE.$_LOGIN_REDIRECT_PATH;
 		
 		$WEB_BASE=$app_path.'web/';
 		$MOD_WEB_PATH=$WEB_BASE.$_PETICION->modulo.'/';			

@@ -6,9 +6,16 @@ class Modelo implements ICrud{
 	var $pk='id';
 	var $nombre='';
 
-	function getError($sth){
+	function getError($sth = null){	
 		$resp=array();
-		$error=$sth->errorInfo();
+		
+		if ($sth == null) {
+			$pdo=$this->getPdo();
+			$error=$pdo->errorInfo();
+		}else{
+			$error=$sth->errorInfo();
+		}
+		
 		
 		$resp['success']=false;			
 		$resp['msg']=$error[2];
@@ -201,50 +208,57 @@ class Modelo implements ICrud{
 	function cadenaDeFiltros($filtros){
 		$cadena=' WHERE ';
 		foreach($filtros as $filtro){
+			$field=empty($filtro['field'])? $filtro['dataKey'] : $filtro['field'];		
 			switch( strtolower( $filtro['filterOperator'] ) ){
 				case 'equals':				
 				case 'contains':				
 				case 'beginswith':					
 				case 'endswith':
-					$cadena.=' '.$filtro['dataKey'].' LIKE :'.$filtro['dataKey'].' AND ';
+					$cadena.=' '.$field.' LIKE :'.$filtro['dataKey'].' and ';
 				break;
 				case 'greater':				
-					$cadena.=' '.$filtro['dataKey'].' > :'.$filtro['dataKey'].' AND ';
+					$cadena.=' '.$field.' > :'.$filtro['dataKey'].' and ';
 				break;
 				case 'greaterorequal':
-					$cadena.=' '.$filtro['dataKey'].' >= :'.$filtro['dataKey'].' AND ';
+					$cadena.=' '.$field.' >= :'.$filtro['dataKey'].' and ';
 				break;
 				case 'isempty':
-					$cadena.=' '.$filtro['dataKey'].' = "" AND ';
+					$cadena.=' '.$field.' = "" and ';
 				break;
+				case 'lessorequal':
+					$cadena.=' '.$field.' <= :'.$filtro['dataKey'].' and ';
+				break;				
 			}
-		}
-		
-		$cadena = substr($cadena, 0,-4);
-		// echo $cadena ; exit;
+		}		
+		$cadena = substr($cadena, 0,-4);		
 		return $cadena;
 	}
 	
 	function bindFiltros($sth,$filtros){
 		foreach($filtros as $filtro){
+			$dk=':'.empty($filtro['field'])? $filtro['dataKey'] : $filtro['field'];
+						
 			switch( strtolower( $filtro['filterOperator'] ) ){
 				case 'equals':									
-					$sth->bindValue(':'.$filtro['dataKey'], $filtro['filterValue'], PDO::PARAM_STR);
+					$sth->bindValue($dk, $filtro['filterValue'], PDO::PARAM_STR);
 				break;
 				case 'contains':				
-					$sth->bindValue(':'.$filtro['dataKey'], '%'.$filtro['filterValue'].'%', PDO::PARAM_STR);
+					$sth->bindValue($dk, '%'.$filtro['filterValue'].'%', PDO::PARAM_STR);
 				break;
 				case 'beginswith':					
-					$sth->bindValue(':'.$filtro['dataKey'], $filtro['filterValue'].'%', PDO::PARAM_STR);
+					$sth->bindValue($dk, $filtro['filterValue'].'%', PDO::PARAM_STR);
 				break;
 				case 'endswith':
-					$sth->bindValue(':'.$filtro['dataKey'], '%'.$filtro['filterValue'], PDO::PARAM_STR);
+					$sth->bindValue($dk, '%'.$filtro['filterValue'], PDO::PARAM_STR);
 				break;
 				case 'greater':
-					$sth->bindValue(':'.$filtro['dataKey'], floatval( $filtro['filterValue'] ), PDO::PARAM_STR);
+					$sth->bindValue($dk, floatval( $filtro['filterValue'] ), PDO::PARAM_STR);
 				break;
 				case 'greaterorequal':				
-					$sth->bindValue(':'.$filtro['dataKey'], floatval( $filtro['filterValue'] ), PDO::PARAM_STR);
+					$sth->bindValue($dk, floatval( $filtro['filterValue'] ), PDO::PARAM_STR);
+				break;
+				case 'lessorequal':				
+					$sth->bindValue($dk, floatval( $filtro['filterValue'] ), PDO::PARAM_STR);
 				break;
 				case 'isempty':				
 					// aqui no se usan parametros (se usa campo='' ) 
