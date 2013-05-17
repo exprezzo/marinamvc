@@ -163,6 +163,8 @@ class Modelo implements ICrud{
 			$success=false; //plionasmo apropósito
 			$msg=$error[2];						
 			$datos=array();
+			
+			// echo $msg.$sql; exit;
 		}else{
 			// $success = rowCount();			
 			if ( empty( $id) ){
@@ -190,6 +192,7 @@ class Modelo implements ICrud{
 		};		
 		$id=$params[$this->pk];
 		$sql = 'DELETE FROM '.$this->tabla.' WHERE '.$this->pk.'=:id';		
+		
 		$con = $this->getConexion();
 		$sth = $con->prepare($sql);		
 		$sth->bindValue(':id',$id,PDO::PARAM_INT);
@@ -276,11 +279,7 @@ class Modelo implements ICrud{
 		if ( isset($params['filtros']) )
 			$filtros=$this->cadenaDeFiltros($params['filtros']);
 			
-			// echo '<pre>';
-		// print_r($params['filtros']);
-		// echo $filtros; 
-		// echo '</pre>';
-		// exit;
+		
 		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla.$filtros;				
 		$sth = $con->prepare($sql);
 		
@@ -291,6 +290,9 @@ class Modelo implements ICrud{
 		
 		
 		$exito = $sth->execute();
+		
+		
+		
 		if ( !$exito ){
 			return $this->getError( $sth );
 			throw new Exception("Error listando: ".$sql); //TODO: agregar numero de error, crear una exception MiEscepcion

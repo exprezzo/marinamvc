@@ -93,6 +93,9 @@ class Controlador{
 		
 		$res=$mod->buscar($params);				
 		
+		if ( !$res['success'] ) {
+			echo  json_encode($res); exit;
+		}
 		$respuesta=array(
 			'rows'=>$res['datos'],
 			'totalRows'=> $res['total']
