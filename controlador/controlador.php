@@ -60,6 +60,7 @@ class Controlador{
 		$params=array(
 			$this->pk=>$id
 		);		
+		
 		$obj=$model->obtener( $params );	
 
 		$vista=$this->getVista();				

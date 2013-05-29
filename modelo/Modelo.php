@@ -231,6 +231,9 @@ class Modelo implements ICrud{
 				case 'lessorequal':
 					$cadena.=' '.$field.' <= :'.$filtro['dataKey'].' and ';
 				break;				
+				case 'less':
+					$cadena.=' '.$field.' < :'.$filtro['dataKey'].' and ';
+				break;				
 			}
 		}		
 		$cadena = substr($cadena, 0,-4);		
@@ -239,14 +242,14 @@ class Modelo implements ICrud{
 	
 	function bindFiltros($sth,$filtros){
 		foreach($filtros as $filtro){
-			$dk=':'.empty($filtro['field'])? $filtro['dataKey'] : $filtro['field'];
-						
+			$dk=$filtro['dataKey'];			
+			$dk=':'.$dk;			
 			switch( strtolower( $filtro['filterOperator'] ) ){
-				case 'equals':									
+				case 'equals':										
 					$sth->bindValue($dk, $filtro['filterValue'], PDO::PARAM_STR);
 				break;
-				case 'contains':				
-					$sth->bindValue($dk, '%'.$filtro['filterValue'].'%', PDO::PARAM_STR);
+				case 'contains':			
+					$sth->bindValue($dk, '%'.$filtro['filterValue'].'%', PDO::PARAM_STR);																				
 				break;
 				case 'beginswith':					
 					$sth->bindValue($dk, $filtro['filterValue'].'%', PDO::PARAM_STR);
@@ -257,11 +260,17 @@ class Modelo implements ICrud{
 				case 'greater':
 					$sth->bindValue($dk, floatval( $filtro['filterValue'] ), PDO::PARAM_STR);
 				break;
-				case 'greaterorequal':				
-					$sth->bindValue($dk, floatval( $filtro['filterValue'] ), PDO::PARAM_STR);
+				case 'greaterorequal':								
+					// echo "greaterorequal- $dk " .$filtro['filterValue'];
+					$sth->bindValue($dk,  $filtro['filterValue'] , PDO::PARAM_STR);
 				break;
 				case 'lessorequal':				
-					$sth->bindValue($dk, floatval( $filtro['filterValue'] ), PDO::PARAM_STR);
+					// echo "lessorequal- $dk " .$filtro['filterValue'];
+					$sth->bindValue($dk,  $filtro['filterValue'] , PDO::PARAM_STR);
+				break;
+				case 'less':				
+					// echo "lessorequal- $dk " .$filtro['filterValue'];
+					$sth->bindValue($dk,  $filtro['filterValue'] , PDO::PARAM_STR);
 				break;
 				case 'isempty':				
 					// aqui no se usan parametros (se usa campo='' ) 
