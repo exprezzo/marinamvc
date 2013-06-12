@@ -4,6 +4,8 @@ class Controlador{
 	var $modelo='Modelo';
 	var $campos=array('id');
 	var $pk='id';
+	
+	
 	function servir(){		
 		global $_PETICION;
 		$accion = $_PETICION->accion;
@@ -16,6 +18,7 @@ class Controlador{
 			}
 		}else{
 			// no existe? muestra la vista
+			// ¿JSON o HTML, o XML TALVEZ?
 			$respuesta = $this->mostrarVista();				
 		}
 		return $respuesta;

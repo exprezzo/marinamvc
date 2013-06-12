@@ -107,6 +107,7 @@ class Modelo implements ICrud{
 		}
 		
 		if ( sizeof($modelos) > 1 ){
+			
 			throw new Exception("El identificador está duplicado"); //TODO: agregar numero de error, crear una exception MiEscepcion
 		}
 		
