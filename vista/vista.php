@@ -68,9 +68,11 @@ class  Vista{
 		}
 		
 		// print_r($peticion); 
+		// echo   $buscarEnRaiz;
 		
 		if ($buscarEnRaiz){	
-			$rutaVista=$ruta_base.'/vistas/'.$peticion->accion.'.php';						
+	
+			$rutaVista=$ruta_base.'/vistas/'.$peticion->accion.'.php';									
 		}else{
 			$rutaVista=$ruta_base.'/vistas/'.$peticion->controlador.'/'.$peticion->accion.'.php';						
 		}			
@@ -78,12 +80,14 @@ class  Vista{
 		$vista_existe = ( file_exists($rutaVista) ) ? true : false;
 		
 		if ($vista_existe) {
+			
 			//$this->antesdeMostrar($vista);
 			require_once($rutaVista);
 			//$this->despuesdeMostrar($vista);
 			$success=true;
 			$msg='accion render ejecutada con éxito';
 		}else{
+			
 			$success=false;
 			$msg='El recurso no ha sido encontrado: '.$rutaVista;
 			

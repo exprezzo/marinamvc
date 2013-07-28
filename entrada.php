@@ -1,40 +1,31 @@
-<?php	
-	
-	/** Absolute path to the WordPress directory. */
-	$REDIRECT_URL = $_SERVER['REDIRECT_URL'];
-	
-	
-	
+<?php		
 	//  AQUI INICIA EL PROCESO
 	session_start();	
+	//-------------------------------------------------------------------------------
+	/* INIT -> Se configuran las variables del framework
+	$_Peticion: La interpretacion del url se almacena en esta variable, el url trata de convertirse en Modulo, controlador y accion.
+	
+	
+	*/
 	ini_set('date.timezone', 'America/Mazatlan');
 	
 	//carga el archivo de configuracion por default
 	require_once '../config.php';		
 	
-	
 	$_DEFAULT_APP='portal';	
 	if (!isset($_DEFAULT_CONTROLLER) ) $_DEFAULT_CONTROLLER='paginas';
 	if (!isset($_DEFAULT_ACTION) ) $_DEFAULT_ACTION='inicio';		
 	
-	
-	
 	$APPS_PATH='../';
 	if (!isset($CORE_PATH)) $CORE_PATH='';
 	require_once $CORE_PATH.'despachador.php';		
+		
 	
-	// if (!defined('DEFAULT_APP') ) define('DEFAULT_APP','portal');
-	// if (!defined('DEFAULT_CONTROLLER') ) define('DEFAULT_CONTROLLER','paginas');
-	// if (!defined('DEFAULT_ACTION') ) define('DEFAULT_ACTION','index');
-	
-	// if (!defined('DEFAULT_MODULE') ) define('DEFAULT_MODULE','default'); 
-	// if (!defined('DEFAULT_CONTROLLER') ) define('DEFAULT_CONTROLLER','paginas'); 
-	// if (!defined('DEFAULT_ACTION') ) define('DEFAULT_ACTION','index'); 
-	
-	//-------------------------------------------------------------------------------
 	// para cargar los archivos css y otros recursos, usamos esta ruta como base 
 	$arrAppPath = explode('/',$_SERVER['SCRIPT_NAME']) ;				
-	$app_path='/';				
+	$app_path='/';			
+
+
 	$arrCount=sizeof($arrAppPath);
 	for( $i=1;  $i<$arrCount-2; $i++ ){		//no nos interesa el primero ni los ultimos dos
 		$app_path.=''.$arrAppPath[$i].'/';			
@@ -46,17 +37,9 @@
 	
 	$APP_URL_BASE=$app_path;
 	
-	
-	
-	
 	$APP_CONFIG['MOD_WEB_BASE']=$app_path.'web/';
-	
-	// echo $APP_CONFIG['WEB_BASE']; exit;
 	//-------------------------------------------------------------------------------		
-
-	$despachador = new Despachador();
-	// $_PETICION=new Peticion(); //Analiza el url
-	// $despachador->despachar();
+	$despachador = new Despachador();	
 	
 	try{		
 		if ( isset($_SERVER['ORIG_PATH_INFO']) ){
@@ -68,11 +51,7 @@
 		$_LOGIN_REDIRECT_PATH= (!isset($_LOGIN_REDIRECT_PATH) )?   $APP_URL_BASE.$_PETICION->modulo.'/'.$_DEFAULT_CONTROLLER.'/'.$_DEFAULT_ACTION :$APP_URL_BASE.$_LOGIN_REDIRECT_PATH;
 		
 		$WEB_BASE=$app_path.'web/';
-		$MOD_WEB_PATH=$WEB_BASE.$_PETICION->modulo.'/';			
-		// $MOD_WEB_PATH = isset( $APP_CONFIG['host'] )? $APP_CONFIG['host'].$MOD_WEB_PATH : $MOD_WEB_PATH;
-		
-		
-		
+		$MOD_WEB_PATH=$WEB_BASE.$_PETICION->modulo.'/';					
 		
 		if ( !file_exists($APPS_PATH.$_PETICION->modulo) ){
 			$APPS_PATH='../modulos/';			
@@ -94,18 +73,11 @@
 			require_once $APPS_PATH.$_PETICION->modulo.'/config.php';	
 		}
 		
-		
-		// $APPS_PATH='../'.$APPS_PATH.'apps/';
-		// require_once $APPS_PATH.$_PETICION->modulo.'/config.php';	
-		
-		
 		if ( !empty($_PETICION->modulo) ){
-			$rutaControlador=$APPS_PATH.$_PETICION->modulo.'/controladores/'.$_PETICION->controlador.'.php';
-			// echo $rutaControlador;
+			$rutaControlador=$APPS_PATH.$_PETICION->modulo.'/controladores/'.$_PETICION->controlador.'.php';			
 			$_PETICION->basePath=$APPS_PATH.$_PETICION->modulo.'/';
 		}
-				
-		// print_r($_PETICION); exit;
+						
 		if ( file_exists($rutaControlador) ){
 			require_once ($rutaControlador);
 		}else{

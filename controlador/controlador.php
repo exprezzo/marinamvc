@@ -107,12 +107,16 @@ class Controlador{
 		echo json_encode($respuesta);
 	}
 	
-	function getModel(){		
+	function getModelo(){
 		if ( !isset($this->modObj) ){				
 			$clase=$this->modelo.'Modelo';
 			$this->modObj = new $clase();	
 		}	
 		return $this->modObj;
+	}
+	function getModel(){		
+		
+		return $this->getModelo();
 	}		
 	
 
@@ -134,7 +138,7 @@ class Controlador{
 		if (!$res['success']) {			
 			echo json_encode($res); exit;
 		}
-		// $pk=$res['datos']['id'];
+		
 		
 		$datos=$res['datos'];
 		
